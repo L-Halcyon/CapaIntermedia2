@@ -1,0 +1,379 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    outline: none;
+    color: #339EFF;
+}
+
+html {
+    font-size: 100.4%;
+    overflow: visible;
+}
+
+body {
+    background: whitesmoke;
+    width: 100%;
+    font-size: 16px;
+}
+
+
+/*NAVBAR*/
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.1);
+    width: 100%;
+    position: fixed;
+    z-index: 2;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    padding-left: 40px;
+}
+
+.logo i {
+    font-size: 30px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.Buscador {
+    display: flex;
+    justify-content: center;
+}
+
+.Buscador_barra {
+    width: 250px;
+    height: 29px;
+    padding: 10px;
+    border-radius: 19px;
+    border-color: black;
+}
+
+.Buscador_boton {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    padding-right: 30px;
+    font-size: 23px;
+    margin-left: 9px;
+}
+
+.Buscador_Avanzada {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    padding-right: 30px;
+    font-size: 23px;
+    margin-left: 13px;
+}
+
+.Opciones {
+    display: flex;
+    justify-content: center;
+}
+
+.Opciones a {
+    padding-right: 30px;
+    color: #339EFF; /* Cambia el color del texto a negro */
+    text-decoration: none; /* Quita el subrayado de los enlaces */
+    padding: 10px 20px;
+   
+}
+.Opciones a:hover{
+    font-weight: 600;
+     /* Cambia el color del texto a rojo cuando el enlace es hover */
+    background-color: lightgray; /* Cambia el color de fondo a gris claro cuando el enlace es hover */
+    border-radius: 5px; /*
+*/}
+.mi-boton {
+    background-color:#339EFF; /* Color de fondo azul */
+    color: white; /* Color del texto blanco */
+    padding: 5px 10px; /* Espaciado interno del botón */
+    border: 10px; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    text-decoration: none; /* Sin subrayado */
+    cursor: pointer; /* Cursor de tipo puntero */
+}
+/*.PerfilUsuario button{
+    background-color: rgb(24, 24, 24);
+    border: solid transparent;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    margin-right: 40px;
+}
+.PerfilUsuario button i{
+    color: rgb(255, 255, 255);
+}*/
+
+.PerfilUsuario button{
+    border: solid transparent;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    margin-right: 40px;
+}
+
+.PerfilUsuario button img{
+    border-radius: 50%;
+    margin-right: 40px;
+}
+
+.PerfilUsuario button:hover{
+    cursor: pointer;
+}
+.PerfilUsuario .sub-menu-wrap{
+    position: absolute;
+    top: 100%;
+    right: 20px;
+    width: 320px;
+    border-radius: 37px;
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.5s;
+}
+.PerfilUsuario .sub-menu-wrap.open-menu{
+    max-height: 400px;
+}
+
+.PerfilUsuario .sub-menu{
+    background: white;
+    padding: 20px;
+    margin: 10px;
+}
+.PerfilUsuario .user-info{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.user-info h2{
+    font-weight: 500;
+}
+/*.user-info i{
+    font-size: 40px;
+    width: 50px;
+    border-radius: 50%;
+}*/
+.user-info img{
+    font-size: 40px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+.sub-menu .sub-menu-link{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #525252;
+    margin: 12px 0;
+}
+.sub-menu .sub-menu-link p{
+    width: 100%;
+}
+.sub-menu .sub-menu-link p:hover{
+    font-weight: 600;
+}
+.sub-menu .sub-menu-link i{
+    width: 40px;
+    background: #e5e5e5;
+    border-radius: 50%;
+    padding: 10px;
+    margin-right: 15px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #333;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #fff;
+}
+
+tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+/*FOOTER*/
+footer {
+    text-transform:capitalize;
+    width: 100%;
+    height: 470px;
+    padding: 50px 0px;
+    background-color: white;
+}
+
+.footer_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: auto;
+    margin-top: 0px;
+    padding-bottom: 70px;
+}
+
+.footer_box {
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+}
+
+.footer_box .logo {
+    padding-left: 0px;
+}
+
+.terminos {
+    max-width: 350px;
+    margin-top: 20px;
+    font-weight: 500;
+    color: #7a7a7a;
+}
+
+.box__copyright {
+    max-width: 1200px;
+    margin: auto;
+    text-align: center;
+    padding: 0px 20px;
+}
+
+.box__copyright p {
+    margin-top: 20px;
+    color: #339EFF;
+}
+
+.box__copyright hr {
+    border: none;
+    height: 1px;
+    background-color: #339EFF;
+}
+
+
+/*CUADRO ROJO DE EJEMPLO*/
+.contenedor {
+    display: flex;
+    padding: 20px; /* Añade espacio interno al contenedor */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+}
+
+
+
+.contenedora {
+  
+    margin: 50px 0; 
+}
+
+
+.contenedor .area1 {
+    display: inline-block;
+    background: rgb(39, 39, 39);
+    width: 100%;
+    margin-top: 90px;
+  
+        text-align: center; /* Centra el texto dentro del área1 */
+    
+    /*margin-bottom: 30px;*/
+}
+
+.botones .area2 {
+    display: inline-block;
+    background: rgb(199, 217, 226);
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.botones .area3 {
+    display: inline-block;
+    background:  rgb(199, 217, 226);
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.area1, .area2, .area3{
+    padding-top: 30px;
+    text-align: center;
+}
+
+/*.area1 i{
+    font-size: 100px;
+}*/
+
+.area1 img{
+    font-size: 100px;
+    border-radius: 50%;
+}
+
+.area2, .area3{
+    padding-bottom: 30px;
+}
+
+.area2 button{
+    height: 45px;
+    line-height: 45px;
+    width: 10%;
+    background: #339EFF;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: .1s ease all;
+    margin-top: 30px;
+}
+
+.area3 button{
+    height: 45px;
+    line-height: 45px;
+    width: 10%;
+    background: #339EFF;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: .1s ease all;
+    margin-top: 30px;
+}
+
+.c{
+    padding: 15px;
+}
+
+.c1{
+    display: inline-block;
+    text-align: center;
+    background: white;
+}

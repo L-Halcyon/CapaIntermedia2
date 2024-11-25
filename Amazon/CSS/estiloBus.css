@@ -1,0 +1,368 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    outline: none;
+    color: #339EFF;
+}
+
+html {
+    font-size: 100.4%;
+    overflow: visible;
+}
+
+body {
+    background: whitesmoke;
+}
+
+
+label, select {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+/* Estilos para el combobox */
+select {
+    width: 10%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+    background-color: #fff;
+    color: #333;
+    appearance: none; /* Elimina la apariencia nativa del combobox */
+}
+
+/* Estilos adicionales al pasar el ratón sobre el combobox */
+select:hover {
+    border-color: #555;
+}
+
+/* Estilos adicionales al enfocar el combobox */
+select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.7);
+}
+
+/*NAVBAR*/
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.1);
+    width: 100%;
+    position: fixed;
+    z-index: 2;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    padding-left: 40px;
+}
+
+.logo i {
+    font-size: 30px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.Buscador {
+    display: flex;
+    justify-content: center;
+}
+
+.Buscador_barra {
+    width: 250px;
+    height: 29px;
+    padding: 10px;
+    border-radius: 19px;
+    border-color: black;
+}
+
+.Buscador_boton {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    padding-right: 30px;
+    font-size: 23px;
+    margin-left: 9px;
+}
+
+.Buscador_Avanzada {
+    width: 20px;
+    height: 20px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    padding-right: 30px;
+    font-size: 23px;
+    margin-left: 13px;
+}
+
+.Opciones {
+    display: flex;
+    justify-content: center;
+}
+
+.Opciones a {
+    padding-right: 30px;
+}
+.Opciones a:hover{
+    font-weight: 600;
+}
+
+.PerfilUsuario button{
+    background-color: rgb(24, 24, 24);
+    border: solid transparent;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    margin-right: 40px;
+}
+.PerfilUsuario button i{
+    color: rgb(255, 255, 255);
+}
+
+.PerfilUsuario button:hover{
+    cursor: pointer;
+}
+.PerfilUsuario .sub-menu-wrap{
+    position: absolute;
+    top: 100%;
+    right: 20px;
+    width: 320px;
+    border-radius: 37px;
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.5s;
+}
+.PerfilUsuario .sub-menu-wrap.open-menu{
+    max-height: 400px;
+}
+
+.PerfilUsuario .sub-menu{
+    background: white;
+    padding: 20px;
+    margin: 10px;
+}
+.PerfilUsuario .user-info{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.user-info h2{
+    font-weight: 500;
+}
+.user-info i{
+    font-size: 40px;
+    width: 50px;
+    border-radius: 50%;
+}
+.sub-menu .sub-menu-link{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #525252;
+    margin: 12px 0;
+}
+.sub-menu .sub-menu-link p{
+    width: 100%;
+}
+.sub-menu .sub-menu-link p:hover{
+    font-weight: 600;
+}
+.sub-menu .sub-menu-link i{
+    width: 40px;
+    background: #e5e5e5;
+    border-radius: 50%;
+    padding: 10px;
+    margin-right: 15px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #333;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #fff;
+}
+
+tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+/*FOOTER*/
+footer {
+    text-transform:capitalize;
+    width: 100%;
+    height: 470px;
+    padding: 50px 0px;
+    background-color: white;
+}
+
+.footer_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: auto;
+    margin-top: 0px;
+    padding-bottom: 70px;
+}
+
+.footer_box {
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+}
+
+.footer_box .logo {
+    padding-left: 0px;
+}
+
+.terminos {
+    max-width: 350px;
+    margin-top: 20px;
+    font-weight: 500;
+    color: #7a7a7a;
+}
+
+.box__copyright {
+    max-width: 1200px;
+    margin: auto;
+    text-align: center;
+    padding: 0px 20px;
+}
+
+.box__copyright p {
+    margin-top: 20px;
+    color: #339EFF;
+}
+
+.box__copyright hr {
+    border: none;
+    height: 1px;
+    background-color: #339EFF;
+}
+/*CUADRO ROJO DE EJEMPLO*/
+.contendor {
+    display: flex;
+}
+.contenedor .area1 {
+    display: inline-block;
+    background: rgb(39, 39, 39);
+    width: 100%;
+    margin-top: 90px;
+    margin-bottom: 30px;
+}
+.Encabezado{
+    color: white;
+}
+
+.c{
+    /*padding: 15px;*/
+    text-align: center;
+}
+
+.c1{
+    /*font-weight: 700;*/
+    background-color: white;
+    display: inline-block;
+    text-align: center;
+    width: auto;
+    padding: 20px 200px 20px 200px;
+}
+
+
+
+.c2 {
+    width: 25%;
+
+    margin-bottom: 20px;
+    background-color: white;
+    border-radius: 5px;
+    margin-left: 20px;
+    text-align: center;
+}
+
+.c2 button{
+    background:  #339EFF;
+    color: white;
+    width: 20%;
+    border-radius: 20px ;
+    cursor: pointer;
+    padding: 8px 12px;
+}
+
+.c2 button:hover {
+    background: white;
+    border: 2px solid  #339EFF;
+}
+
+.c2 button a{
+    color: white;
+}
+
+.c2 button:hover a{
+    color: black;
+}
+
+form {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+#buscar {
+    margin-left: 30px;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+}
+
+#boton {
+    margin-left: 40px;
+    padding: 8px 12px;
+    font-size: 16px;
+    background-color:#339EFF;
+    color: white;
+    border: 1px solid #339EFF;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+#boton:hover {
+    background-color: #fff;
+    color: black;
+    border: 2px solid black;
+}

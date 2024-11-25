@@ -1,0 +1,243 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500&display=swap');
+/* Estilos para pantallas más pequeñas (dispositivos móviles) */
+@media only screen and (max-width: 600px) {
+    /* Estilos específicos para dispositivos móviles */
+}
+
+/* Estilos para pantallas medianas (tabletas) */
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+    /* Estilos específicos para tabletas */
+}
+
+/* Estilos para pantallas más grandes (computadoras de escritorio) */
+@media only screen and (min-width: 1025px) {
+    /* Estilos específicos para computadoras de escritorio */
+}
+
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    outline: none;
+    color: #339EFF;
+    /* text-transform:capitalize; */
+}
+
+html {
+    font-size: 100.4%;
+    overflow: visible;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto; /* Centra el contenedor */
+}
+body {
+    background: whitesmoke;
+    width: 100%;
+    font-size: 16px;
+}
+
+/*NAVBAR*/
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.1);
+    width: 100%;
+    position: fixed;
+    z-index: 2;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    padding-left: 40px;
+}
+
+.logo i {
+    font-size: 30px;
+}
+
+a {
+    text-decoration: none;
+    color: #339EFF;
+}
+
+.Buscador {
+    display: flex;
+    justify-content: center;
+}
+
+.Buscador_barra {
+    width: 250px;
+    height: 29px;
+    padding: 10px;
+    border-radius: 19px;
+    border-color: black;
+}
+
+.Buscador_boton {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    padding-right: 30px;
+    font-size: 23px;
+    margin-left: 9px;
+}
+
+.Buscador_Avanzada {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    padding-right: 30px;
+    font-size: 23px;
+    margin-left: 13px;
+}
+
+.Opciones {
+    display: flex;
+    justify-content: center;
+}
+
+.Opciones a {
+    padding-right: 30px;
+    color: #339EFF;
+}
+.Opciones a:hover{
+    font-weight: 600;
+    
+}
+
+.PerfilUsuario button{
+    background-color: rgb(24, 24, 24);
+    border: solid transparent;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    margin-right: 40px;
+}
+.PerfilUsuario button i{
+    color: rgb(255, 255, 255);
+}
+
+.PerfilUsuario button:hover{
+    cursor: pointer;
+}
+.PerfilUsuario .sub-menu-wrap{
+    position: absolute;
+    top: 100%;
+    right: 20px;
+    width: 320px;
+    border-radius: 37px;
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.5s;
+}
+.PerfilUsuario .sub-menu-wrap.open-menu{
+    max-height: 400px;
+}
+
+.PerfilUsuario .sub-menu{
+    background: white;
+    padding: 20px;
+    margin: 10px;
+}
+.PerfilUsuario .user-info{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.user-info h2{
+    font-weight: 500;
+}
+.user-info i{
+    font-size: 40px;
+    width: 50px;
+    border-radius: 50%;
+}
+.sub-menu .sub-menu-link{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #525252;
+    margin: 12px 0;
+}
+.sub-menu .sub-menu-link p{
+    width: 100%;
+}
+.sub-menu .sub-menu-link p:hover{
+    font-weight: 600;
+}
+.sub-menu .sub-menu-link i{
+    width: 40px;
+    background: #e5e5e5;
+    border-radius: 50%;
+    padding: 10px;
+    margin-right: 15px;
+}
+
+/*FOOTER*/
+footer {
+    text-transform:capitalize;
+    width: 100%;
+    height: 470px;
+    padding: 50px 0px;
+    background-color: white;
+}
+
+.footer_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: auto;
+    margin-top: 0px;
+    padding-bottom: 0px; /*70px*/
+}
+
+.footer_box {
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+}
+
+.footer_box .logo {
+    padding-left: 100px;
+}
+
+.terminos {
+    max-width: 350px;
+    margin-top: 20px;
+    font-weight: 500;
+    color: #7a7a7a;
+}
+
+.box__copyright {
+    max-width: 1200px;
+    margin: auto;
+    text-align: center;
+    padding: 0px 20px;
+}
+
+.box__copyright p {
+    margin-top: 20px;
+    color: #339EFF;
+}
+
+.box__copyright hr {
+    border: none;
+    height: 1px;
+    background-color: #339EFF;
+}
+

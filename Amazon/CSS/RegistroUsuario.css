@@ -1,0 +1,158 @@
+*{
+    box-sizing: border-box;
+}
+
+.PerfilUsuario{
+    display: none;
+}
+
+main {
+    max-width: 800px;
+    width: 90%;
+    margin: auto;
+    padding: 100px;
+}
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+.cuadro {
+  
+    padding: 20px 30px 60px 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    margin: 80px 0 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.Titulo{
+    padding: 20px 0;
+}
+
+.cuadro ul {
+    list-style-type: none;
+    text-align: center;
+}
+
+.cuadro ul label{
+    text-align: start;
+    margin-left: 60px;
+}
+
+/* .formulario {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+} */
+
+.formulario__label{
+    display: block;
+    font-weight: 700;
+    padding: 10px; 
+    cursor: pointer;
+}
+
+.formulario__grupo-input{
+    position: relative;
+}
+
+.formulario__input{
+    width: 75%;
+    background: #fff;
+    border: 3px solid  #339EFF;
+    border-radius: 3px;
+    height: 45px;
+    line-height: 45px;
+    padding: 0 40px 0 10px;
+    transition: .3s ease all;
+}
+
+.formulario__input-error{
+    font-size: 14px;
+    margin-bottom: 0;
+    display: none;
+    text-align:start;
+    margin-left: 60px;
+    margin-right: 60px;
+}
+
+.formulario__input-error-activo{
+display: block;
+}
+
+.material-symbols-rounded{
+    position: absolute;
+    right: 10px;
+    bottom: 12px;
+    z-index: 100;
+    font-size: 16px;
+    opacity: 0;
+}
+
+.formulario__validacion-estado{
+    position: absolute;
+    right: 10px;
+    bottom: 15px;
+    z-index: 100;
+    font-size: 16%;
+    opacity: 0;
+}
+
+.formulario__mensaje{
+height: 45px;
+line-height: 45px;
+background: rgb(153, 153, 153);
+padding: 0 15px;
+border-radius: 3px;
+display: none;
+margin-top: 30px;
+}
+
+.formulario__mensaje,
+.formulario__grupo-btn-crear{
+grid-column: span 2;
+}
+
+.formulario__mensaje-activo{
+    display: block;
+}
+
+.formulario__mensaje p{
+    margin: 0;
+}
+
+.formulario__mensaje-exito{
+    font-weight: bold;
+    display: none;
+}
+
+.formulario__grupo-btn-crear{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.formulario__btn{
+    height: 45px;
+    line-height: 45px;
+    width: 30%;
+    background:  #339EFF;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: .1s ease all;
+    margin-top: 30px;
+}
+
+.formulario__grupo-incorrecto .formulario__validacion-estado{
+    opacity: 1;
+}
+
+/*#label1{
+    color: green;
+}*/

@@ -1,0 +1,362 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    outline: none;
+    
+    color: #339EFF;
+}
+p{
+    color: #339EFF;
+}
+hr {
+    border: 1px solid #ccc;
+}
+  /* Estilo para el botón corazón */
+  .corazon-btn {
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    color: #339EFF;
+    cursor: pointer;
+    font-size: 24px;
+    position: absolute;
+    top: -260px; /* Ajusta la distancia desde la parte superior */
+    right: 10px; /* Ajusta la distancia desde la derecha */
+}
+
+.corazon-btn.clicked {
+    color: red; /* Cambiado a rojo cuando se presiona */
+}
+/* Estilo para el botón corazón */
+.contenedora {
+    position: relative;
+}
+
+button {
+    background-color: #339EFF;
+    color: white;
+}
+html {
+    font-size: 100.4%;
+    overflow: visible;
+}
+
+body {
+    background: whitesmoke;
+}
+
+/*NAVBAR*/
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.1);
+    width: 100%;
+    position: fixed;
+    z-index: 2;
+}
+
+.logo {
+    text-decoration: none;
+    align-items: center;
+    padding-left: 3px;
+}
+
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.Buscador {
+    display: flex;
+    justify-content: center;
+}
+
+.Buscador_barra {
+    width: 250px;
+    height: 29px;
+    padding: 10px;
+    border-radius: 19px;
+    border-color: black;
+}
+
+.Buscador_boton {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    padding-right: 30px;
+    font-size: 23px;
+    margin-left: 9px;
+}
+
+.Buscador_Avanzada {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    padding-right: 30px;
+    font-size: 23px;
+    margin-left: 13px;
+}
+
+.Opciones {
+    display: flex;
+    justify-content: center;
+}
+
+.Opciones a {
+    padding-right: 90px;
+    text-decoration: none;
+}
+.Opciones a:hover{
+    font-weight: 600;
+}
+
+.PerfilUsuario button{
+    background-color: rgb(24, 24, 24);
+    border: solid transparent;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    margin-right: 40px;
+}
+.PerfilUsuario button i{
+    color: rgb(255, 255, 255);
+}
+.Perfil {
+ 
+    padding: 10px; /* Ajusta el espacio interno según tus preferencias */
+    display: flex;
+    justify-content: flex-end; /* Centra el contenido hacia la derecha */
+  }
+
+  .Perfil nav {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+
+  .Perfil .logo h1 {
+    margin: 0; /* Elimina el margen predeterminado del h1 */
+  }
+
+
+.PerfilUsuario button{
+    border: solid transparent;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    margin-right: 40px;
+}
+
+.PerfilUsuario button img{
+    border-radius: 50%;
+    margin-right: 40px;
+}
+
+.PerfilUsuario button:hover{
+    cursor: pointer;
+}
+.PerfilUsuario .sub-menu-wrap{
+    position: absolute;
+    top: 100%;
+    right: 20px;
+    width: 320px;
+    border-radius: 37px;
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.5s;
+}
+.PerfilUsuario .sub-menu-wrap.open-menu{
+    max-height: 400px;
+}
+
+.PerfilUsuario .sub-menu{
+    background: white;
+    padding: 20px;
+    margin: 10px;
+}
+.PerfilUsuario .user-info{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.user-info h2{
+    font-weight: 500;
+}
+/*.user-info i{
+    font-size: 40px;
+    width: 50px;
+    border-radius: 50%;
+}*/
+
+.user-info img{
+    font-size: 40px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+.sub-menu .sub-menu-link{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #525252;
+    margin: 12px 0;
+}
+.sub-menu .sub-menu-link p{
+    width: 100%;
+}
+.sub-menu .sub-menu-link p:hover{
+    font-weight: 600;
+}
+.sub-menu .sub-menu-link i{
+    width: 40px;
+    background: #e5e5e5;
+    border-radius: 50%;
+    padding: 10px;
+    margin-right: 15px;
+}
+
+/*FOOTER*/
+footer {
+    text-transform:capitalize;
+    width: 100%;
+    height: 470px;
+    padding: 50px 0px;
+    background-color: white;
+}
+
+.footer_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: auto;
+    margin-top: 0px;
+    padding-bottom: 70px;
+}
+
+.footer_box {
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+}
+
+.footer_box .logo {
+    padding-left: 0px;
+}
+
+.terminos {
+    max-width: 350px;
+    margin-top: 20px;
+    font-weight: 500;
+    color: #7a7a7a;
+}
+
+.box__copyright {
+    max-width: 1200px;
+    margin: auto;
+    text-align: center;
+    padding: 0px 20px;
+}
+
+.box__copyright p {
+    margin-top: 20px;
+    color: #339EFF;
+}
+
+.box__copyright hr {
+    border: none;
+    height: 1px;
+    background-color: #339EFF;
+}
+
+/*CUADRO ROJO DE EJEMPLO*/
+.contendor {
+    display: flex;
+}
+.contenedor .area1 {
+    display: inline-block;
+    background: rgb(39, 39, 39);
+    width: 100%;
+    margin-top: 90px;
+    margin-bottom: 30px;
+}
+.Encabezado{
+    color:  #339EFF;
+}
+
+.c, .a, .b{
+    padding: 15px;
+}
+
+.c1, .a1, .b1{
+    font-weight: 700;
+}
+
+.c2, .c3, .c4, .a2, .a3, .a4, .b2, .b3, .b4{
+    display: inline-block;
+    text-align: center;
+    width: 325px;
+    background: white;
+}
+
+
+
+
+
+.c1 {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.Encabezado {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.c2 {
+    width: 25%;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.c2 button{
+    background:  #339EFF;
+    color: white;
+    width: 20%;
+    border-radius: 20px ;
+    cursor: pointer;
+    padding: 8px 12px;
+}
+
+.c2 button:hover {
+    background: white;
+    border: 2px solid  #339EFF;
+}
+
+.c2 button a{
+    color: white;
+}
+
+.c2 button:hover a{
+    color: black;
+}

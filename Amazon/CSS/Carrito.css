@@ -1,0 +1,94 @@
+/*CUADRO ROJO DE EJEMPLO*/
+.contenedor {
+    text-align: center;
+}
+
+.contenedor .area1 {
+    background: rgb(39, 39, 39);
+    width: 75%;
+    height: auto;
+    margin-top: 90px;
+    margin-bottom: 30px;
+    display: inline-block;
+    border-radius: 10px;
+    color: white;
+}
+
+.contenedor .separador hr{
+    width: 95%;
+    padding-bottom: 10px;
+    margin: auto;
+}
+
+.contenedor .area1_1 {
+    text-align: start;
+    margin-left: 20px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.contenedor .area1_2 {
+    text-align: start;
+    margin-left: 20px;
+    margin-top: 5px;
+}
+.contenedor .area1_2 div .elim{
+    color: white;
+    margin: auto;
+}
+.contenedor .area1_3 {
+    align-items: center;
+    text-align: start;
+    margin-left: 20px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.contenedor .area2{
+    align-items: center;
+}
+
+.contenedor .area1_3 button{
+    font-weight: bold;
+    font-size: 30px;
+    color: white;
+    background-color: rgb(39, 39, 39);
+    border-style: solid;
+    border-color: whitesmoke;
+    height: 60px;
+    width: 200px;
+    border-radius: 20px;
+}
+.contenedor .area1_3 button:hover{
+    color: black;
+    background-color: white;
+    border-color: black;
+}
+
+.PerfilUsuario button{
+    border: solid transparent;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    margin-right: 40px;
+}
+
+.PerfilUsuario button img{
+    border-radius: 50%;
+    margin-right: 40px;
+}
+
+.PerfilUsuario .user-info{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.user-info h2{
+    font-weight: 500;
+}
+
+.user-info img{
+    font-size: 40px;
+    width: 50px;
+    border-radius: 50%;
+}

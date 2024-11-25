@@ -1,0 +1,165 @@
+
+.contenedor {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    width: 50%;
+    background-color: #fff;
+    padding-top: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   
+       
+}
+
+.boton-derecha{
+    margin-right: 0px; 
+    flex: 1; 
+}
+.usuario-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 25px; 
+}
+
+.izquierda {
+    flex: .2; /* Esto hará que el elemento ocupe el espacio disponible */
+}
+
+.derecha {
+    margin-left: 10px; /* Ajusta el espacio entre los elementos izquierda y derecha */
+}
+
+.boton {
+    background-color:  #3498db;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.boton:hover {
+    background-color:  #157bc0;
+}
+
+.mensajes {
+    max-width: 200px; /* Ajusta el ancho máximo según tus necesidades */
+    background-color: rgb(39, 39, 39);; /* Color de fondo del globo de texto */
+    border-radius: 10px; /* Bordes redondeados para que parezca una burbuja */
+    padding: 10px; /* Ajusta el relleno según tus necesidades */
+    position: relative;
+ 
+        margin-left: auto;
+    padding-left: 30px;
+    width: 100%;
+  
+}
+
+/* Triángulo para simular la punta del globo de texto */
+ .mensajes:before {
+        content: "";
+        position: absolute;
+        border-style: solid;
+        border-width: 8px 8px 0;
+        border-color: rgb(39, 39, 39) transparent transparent transparent; /* Color azul del globo de texto y transparencia para la punta */
+        top: 100%; /* Posiciona la punta en la parte superior del contenedor */
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .mensajes_R {
+        max-width: 200px; /* Ajusta el ancho máximo según tus necesidades */
+        background-color: rgb(39, 39, 39);; /* Color de fondo del globo de texto */
+        border-radius: 10px; /* Bordes redondeados para que parezca una burbuja */
+        padding: 10px; /* Ajusta el relleno según tus necesidades */
+        position: relative;
+     margin-bottom: 40px;
+        margin-right: auto;
+      
+        width: 100%;
+      
+    }
+    
+    /* Triángulo para simular la punta del globo de texto */
+     .mensajes_R:before {
+            content: "";
+            position: absolute;
+            border-style: solid;
+            border-width: 8px 8px 0;
+            border-color: rgb(39, 39, 39) transparent transparent transparent; /* Color azul del globo de texto y transparencia para la punta */
+            top: 100%; /* Posiciona la punta en la parte superior del contenedor */
+            left: 50%;
+            transform: translateX(-50%);
+        }
+#agregar_C {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: -5px;
+    
+}
+#agregar_A {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 0px;
+    
+}
+h1 {
+    color:  #339EFF;
+}
+.contenedor .area1 {
+    margin-top: 90px;
+    margin-bottom: 90px;
+}
+
+.card {
+    margin-bottom: 100px;
+}
+
+.card-footer {
+    background-color: rgb(39, 39, 39);;
+    border-top: none;
+}
+
+/* Estilos para los mensajes */
+
+.card-body div {
+    padding: 8px 0;
+}
+
+.card-footer .input-group {
+    padding: 10px;
+}
+
+.Input_mensaje{
+    padding-left: 20px; 
+    height: 29px;
+    padding: 10px;
+    border-radius: 19px;
+    border-color: black;
+    
+}
+
+/* Estilos para los botones */
+.btn {
+    padding: 0px;
+    border-radius: 10px;
+    height: 29px;
+    width: 200px;
+    color: white;
+    background-color: black;
+    border-color: black;
+}
+
+.btn:hover {
+    color: black;
+    background-color: white;
+}

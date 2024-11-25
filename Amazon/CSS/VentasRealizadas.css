@@ -1,0 +1,65 @@
+.contenedor {
+    width: 90%; 
+    padding-top: 30px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.area1 {
+    margin-bottom: 90px;
+}
+
+.area2 {
+    margin-bottom: 30px;
+}
+
+.contenedor .area1 .Titulo {
+    margin-top: 90px;
+}
+
+.Encabezado {
+    background-color: black;
+    color: #fff;
+    border-radius: 10px 10px 0 0;
+    padding: 5px 5px 5px 5px;
+}
+
+.Encabezado_Tabla {
+    background-color: black;
+    color: #fff;
+    border-radius: 10px 10px 0 0;
+    padding: 5px 5px 5px 5px;
+    text-align: center;
+}
+
+.Registro_Tabla {
+    background-color: white;
+    color: black;
+    text-align: center;
+}
+
+.Fitros_Cuerpo {
+    color: white;
+    background-color: rgb(39, 39, 39);
+    ;
+    padding: 10px;
+    border-radius: 0 0 10px 10px;
+}
+
+.boton {
+    margin-top: 10px;
+    border-radius: 10px;
+    width: 100%;
+    color: white;
+    background-color: rgb(39, 39, 39);
+    border-style: solid;
+    border-color: whitesmoke;
+}
+
+.boton:hover {
+    color: black;
+    background-color: white;
+    border-color: black;
+}
