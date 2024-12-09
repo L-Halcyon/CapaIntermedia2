@@ -6,7 +6,7 @@ class Conexion {
     public function __construct() {
         $Host = 'localhost';
         $Usuario = 'root';
-        $Contrasena = '';
+        $Contrasena = '51423dsca';
         $DBnombre = 'bdm';
         
         try {

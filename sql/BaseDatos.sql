@@ -25,8 +25,8 @@ CREATE TABLE Usuario(
     CHECK (Rol = 'vendedores' OR Rol = 'clientes' OR Rol = 'administradores'),
     CHECK (Eliminado = 0 OR Eliminado = 1)
 );
-SELECT * FROM usuario;
-SELECT * FROM Producto;
+-- SELECT * FROM usuario;
+-- SELECT * FROM Producto;
 
 
 CREATE TABLE Categoria(
@@ -135,6 +135,7 @@ CREATE TABLE Mensajes(
 	ID_usuario INT,
     Mensaje VARCHAR(200),
     ID_usuariorecibidor INT,
+    Producto_ID INT,
  
      FOREIGN KEY (Producto_ID) REFERENCES Producto_cotizable(Producto_ID),
     FOREIGN KEY (ID_usuario) REFERENCES Usuario(Usuario_ID),
