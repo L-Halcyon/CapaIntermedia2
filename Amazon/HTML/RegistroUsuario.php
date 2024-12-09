@@ -29,7 +29,7 @@
     <main>
         <div class="cuadro">
             <!-- <form action="../PHP/registro.php" onsubmit=" return validarFormulario();" class="formulario" id="formulario" method="post" enctype="multipart/form-data">-->
-            <form action="../PHP/registro.php" class="formulario" id="formulario" method="post" enctype="multipart/form-data">
+            <form action="../PHP/registro.php" class="formulario" id="formulario" method="post" enctype="multipart/form-data" onsubmit="return validarFormulario();">
                 <ul class="lista">
 
                     <li>
@@ -67,7 +67,7 @@
                         <div class="formulario__grupo" id="grupo__Fecha_Nacimiento">
                             <label for="FechadeNacimiento" class="formulario__label">Fecha de Nacimiento</label>
                             <div class="formulario__grupo-input">
-                                <input name="FechadeNacimiento" id="Fecha de Nacimiento" class="formulario__input" type="date" >
+                                <input name="FechadeNacimiento" id="FechadeNacimiento" class="formulario__input" type="date" >
                                 <span class="material-symbols-rounded">cancel</span>
                                 <p class="formulario__input-error">La fecha de nacimiento no puede ser despues del dia
                                     actual.
@@ -79,7 +79,7 @@
                         <div class="formulario__grupo" id="grupo__correo">
                             <label for="CorreoElectrónico" class="formulario__label">Correo Electrónico</label>
                             <div class="formulario__grupo-input">
-                                <input name="CorreoElectrónico" id="Correo Electrónico" class="formulario__input" type="text" placeholder="ejemplo@gmail.com">
+                                <input name="CorreoElectrónico" id="CorreoElectronico" class="formulario__input" type="text" placeholder="ejemplo@gmail.com">
                                 <span class="material-symbols-rounded">cancel</span>
                                 <p class="formulario__input-error">El correo electrónico debe tener un formato como el
                                     del
@@ -108,7 +108,7 @@
                         <div class="formulario__grupo" id="grupo__Imagen_perfil">
                             <label for="ImagendePerfil" class="formulario__label">Imagen de Perfil</label>
                             <div class="formulario__grupo-input">
-                                <input name="ImagendePerfil" id="Imagen de Perfil" class="formulario__input" type="file" accept="image/png,image/jpeg">
+                                <input name="ImagendePerfil" id="ImagendePerfil" class="formulario__input" type="file" accept="image/png,image/jpeg">
                                 <span class="material-symbols-rounded">cancel</span>
                                 <p class="formulario__input-error">Extensión no permitida. Utiliza: .jpeg/.jpg/.png/.
                                 </p>
@@ -119,7 +119,7 @@
                         <div class="formulario__grupo" id="grupo__nombre_usuario">
                             <label for="NombredeUsuario" class="formulario__label">Nombre de Usuario</label>
                             <div class="formulario__grupo-input">
-                                <input name="NombredeUsuario" id="Nombre de Usuario" class="formulario__input" type="text" placeholder="Nombre de Usuario">
+                                <input name="NombredeUsuario" id="NombredeUsuario" class="formulario__input" type="text" placeholder="Nombre de Usuario">
                                 <span class="material-symbols-rounded">cancel</span>
                                 <p class="formulario__input-error">El nombre de usuario ya existe.</p>
                             </div>

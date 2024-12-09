@@ -106,48 +106,46 @@
 </html>
 <script>
         document.getElementById('formBusqueda').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevenir el envío del formulario
-            var keyword = $('#keyword').val();
-           
-            // Simular la búsqueda (aquí puedes agregar tu lógica para enviar la búsqueda al servidor)
-     
-                $.ajax({
-    url: '../PHP/APIproducto.php',
-    
-    type: 'GET',
-    data: { keyword: keyword },
-    dataType: 'json',
+    event.preventDefault(); // Prevenir el envío del formulario
+    var keyword = $('#keyword').val();
 
-    success: function(response) {
-       
-         mostrarResultados(response);
-    },
-    error: function(xhr, status, error) {
-        // Manejar errores de la solicitud AJAX aquí
-
-        console.log(xhr.responseText);
-   
-    }
-});
-        });
-        function mostrarResultados(data) {
-            var resultadoHTML = '';
-
-            if (data.items && data.items.length > 0) {
-                // Iterar sobre los productos y construir el HTML para mostrarlos
-                data.items.forEach(function(producto) {
-                    resultadoHTML += '<div>';
-                    resultadoHTML += '<h3>' + producto.Nombre + '</h3>';
-                    resultadoHTML += '<p>' + producto.Descripcion + '</p>';
-                    resultadoHTML += '<p>Precio: ' + producto.Precio + '</p>';
-                    resultadoHTML += '</div>';
-                });
+    $.ajax({
+        url: '../PHP/APIproducto.php',
+        type: 'GET',
+        data: { keyword: keyword },
+        dataType: 'json',
+        success: function(response) {
+            if (response.items) {
+                mostrarResultados(response);
             } else {
-                // Mostrar un mensaje si no se encontraron productos
-                resultadoHTML = '<p>No se encontraron productos.</p>';
+                $('#resultadoBusqueda').html('<p>No se encontraron productos.</p>');
             }
-
-            // Agregar el HTML generado al contenedor de resultados
-            $('#resultadoBusqueda').html(resultadoHTML);
+        },
+        error: function(xhr, status, error) {
+            console.error('Error en la solicitud AJAX:', xhr.responseText);
+            $('#resultadoBusqueda').html('<p>Error al realizar la búsqueda.</p>');
         }
+    });
+});
+
+function mostrarResultados(data) {
+    var resultadoHTML = '';
+
+    if (data.items.length > 0) {
+        data.items.forEach(function(producto) {
+            resultadoHTML += `
+                <div class="producto">
+                    <h3>${producto.Nombre}</h3>
+                    <p>${producto.Descripcion}</p>
+                    <p>Precio: $${producto.Precio}</p>
+                </div>`;
+        });
+    } else {
+        resultadoHTML = '<p>No se encontraron productos.</p>';
+    }
+
+    // Asegúrate de que el selector del contenedor sea correcto
+    $('#resultadoBusqueda').html(resultadoHTML);
+}
+
     </script>

@@ -49,12 +49,14 @@ function validarFormulario() {
     }
 
     // Validación del género
-    if (!genero) {
+    var generoSeleccionado = formulario.querySelector('input[name="genero"]:checked');
+    if (!generoSeleccionado) {
         mostrarError("grupo__Genero", "Debe seleccionar un género");
         errores = true;
     } else {
         ocultarError("grupo__Genero");
     }
+
 
     // Validación de la imagen de perfil
     if (imagenPerfil === "") {
@@ -73,14 +75,19 @@ function validarFormulario() {
     }
 
     // Validación de la contraseña
-    var regexContrasena = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
-    if (!regexContrasena.test(contrasena)) {
-        mostrarError("grupo__contraseña", "La contraseña no cumple con los requisitos:\n- Mínimo de 8 caracteres.\n- Al menos una mayúscula.\n- Al menos una minúscula.\n- Al menos un número.\n- Al menos un carácter especial.");
+    var regexContrasena = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+    // Validación de la contraseña
+    if (typeof contrasena !== "string" || !regexContrasena.test(contrasena)) {
+        mostrarError(
+            "grupo__contraseña",
+            "La contraseña no cumple con los requisitos:\n- Mínimo de 8 caracteres.\n- Al menos una mayúscula.\n- Al menos una minúscula.\n- Al menos un número.\n- Al menos un carácter especial."
+        );
 
         errores = true;
     } else {
         ocultarError("grupo__contraseña");
     }
+
 
     // Validación de la confirmación de la contraseña
     if (contrasena !== confirmarContrasena) {
@@ -91,12 +98,14 @@ function validarFormulario() {
     }
 
     // Validación del rol
-    if (!rol) {
+    var rolSeleccionado = formulario.querySelector('input[name="Rol"]:checked');
+    if (!rolSeleccionado) {
         mostrarError("grupo__Rol", "Debe seleccionar un rol");
         errores = true;
     } else {
         ocultarError("grupo__Rol");
     }
+
 
     if (errores) {
         alert("Llenar todos los campos");
