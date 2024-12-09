@@ -6,14 +6,42 @@ $miConexion = $conexion->obtenerConexion();
 session_start();
 
 $usuario = $_SESSION['username'];
+$usuarioID = $_SESSION['user_id'];
 
 $q = "SELECT * FROM Usuario WHERE NomUsu = '$usuario'";
 $stmt = $miConexion->prepare($q);
 $stmt->execute();
 
-$stmt2 = $miConexion->prepare($q);
+// Obtener los productos comprados por el usuario desde la tabla Pedido
+$sql = "SELECT p.Nombre, p.Producto_ID, pd.Precio, pd.FechaHora 
+        FROM Pedido pd
+        JOIN Producto p ON pd.IDProd = p.Producto_ID
+        WHERE pd.Usu_ID = :usuarioID
+        ORDER BY pd.FechaHora DESC";
+$stmt2 = $miConexion->prepare($sql);
+$stmt2->bindParam(':usuarioID', $usuarioID);
 $stmt2->execute();
 
+$productosComprados = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+/*
+// Mostrar los productos comprados
+if (count($productosComprados) > 0) {
+    echo "<h2>Productos Recientemente Comprados</h2>";
+    echo "<form action='guardar_comentarios.php' method='post'>";
+    foreach ($productosComprados as $producto) {
+        echo "<div class='producto-comprado'>";
+        echo "<p>Producto: " . $producto['Nombre'] . "</p>";
+        echo "<p>Precio: $" . $producto['Precio'] . "</p>";
+        echo "<p>Fecha de Compra: " . $producto['FechaHora'] . "</p>";
+        echo "<label for='comentario_" . $producto['Producto_ID'] . "'>Deja tu comentario:</label>";
+        echo "<textarea id='comentario_" . $producto['Producto_ID'] . "' name='comentario_" . $producto['Producto_ID'] . "' required></textarea>";
+        echo "</div>";
+    }
+    echo "<button type='submit'>Enviar Comentarios</button>";
+    echo "</form>";
+} else {
+    echo "<p>No has comprado productos recientemente.</p>";
+}*/
 ?>
 
 <!DOCTYPE html>
@@ -21,137 +49,77 @@ $stmt2->execute();
 
 <head>
     <meta charset="UTF-8">
-    <title>U-Shop | Comentarios & Valoracion</title>
+    <title>U-Shop | Comentarios</title>
     <script src="https://kit.fontawesome.com/a23bf762ef.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../CSS/estilocomen.css">
+    <link rel="stylesheet" href="../CSS/ElementosGenerales.css">
 </head>
 
 <body>
-    <header>
+<header>
 
-        <a href="PagIni.php" class="logo">
-            <i class="fa-solid fa-hashtag"></i>
-            <h1>U-Shop</h1>
-        </a>
+<a href="PagIni.php" class="logo">
 
-        <div class="PerfilUsuario">
-            <button onclick="mostrar()">
-                <?php
-                    foreach($stmt as $row)
-                    {
-                        $id = $row['Usuario_ID'];
-                        
-                        $q1 = "SELECT * FROM Usuario_Foto WHERE Usu_ID = '$id'";
-                        $stmt1 = $miConexion->prepare($q1);
-                        $stmt1->execute();
+    <h1 style="color: #339EFF;">F-Store</h1>
+</a>
 
-                        foreach($stmt1 as $row1)
-                        {
-                            $tipo = $row1['tipo'];
-                            $imag = $row1['imagen'];
-                ?>
-                            <img src="data:<?php echo $tipo; ?>;base64,<?php echo base64_encode($imag); ?>" height="40" width="40"/>
-            </button>
 
-            <div class="sub-menu-wrap" id="SubMenu">
-                <div class="sub-menu">
-                    <div class="user-info">
-                            <img src="data:<?php echo $tipo; ?>;base64,<?php echo base64_encode($imag); ?>" height="50" width="50"/>
-                        
-                        <?php
-                        }
-                    }
-                        ?>
-                        <?php
-                            foreach($stmt2 as $row2)
-                            {
-                        ?>
-                        <h2><?php echo $row2['NomUsu']; ?></h2>
-                        <?php
-                            }
-                        ?>
-                    </div>
-                    <hr>
-                    <a href="../HTML/Perfil.php" class="sub-menu-link">
-                        <i class="fa-solid fa-user"></i>
-                        <p>Ver perfil</p>
-                        <span></span>
-                    </a>
-                    <a href="Carrito.php" class="sub-menu-link">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        <p>Carrito</p>
-                        <span></span>
-                    </a>
-                    <a href="../HTML/salir.php" class="sub-menu-link">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                        <p>Cerrar Sesion</p>
-                        <span></span>
-                    </a>
-                </div>
-            </div>
-        </div>
+<hr>
 
-        <script>
-            let SubMenu = document.getElementById("SubMenu");
-            function mostrar() {
-                SubMenu.classList.toggle("open-menu")
-            }
-        </script>
-    </header>
+
+<a href="../HTML/InicioSesion.php" class="sub-menu-link">
+    <i class="fa-solid fa-right-from-bracket"></i>
+    <p>Cerrar Sesion</p>
+    <span></span>
+</a>
+
+<script>
+    let SubMenu = document.getElementById("SubMenu");
+
+    function mostrar() {
+        SubMenu.classList.toggle("open-menu")
+    }
+</script>
+</header>
 
     <div class="contenedor">
         <div class="area1">
             <div class="c">
                 <div class="c1">
-                    <?php
-                        $stmt3 = $miConexion->prepare($q);
-                        $stmt3->execute();
+                    <h1 class="Titulo">Productos Recientemente Comprados</h1>
 
-                        foreach($stmt3 as $row3)
-                        {
-                            $idusuario = $row3['Usuario_ID'];
+                    <?php if (count($productosComprados) > 0): ?>
+                        <form action="../PHP/guardar_comentarios.php" method="post">
+                            <?php foreach ($productosComprados as $producto): ?>
+                                <div class="producto-comprado">
+                                    <p>Producto: <?= htmlspecialchars($producto['Nombre']); ?></p>
+                                    <p>Precio: $<?= htmlspecialchars($producto['Precio']); ?></p>
+                                    <p>Fecha de Compra: <?= htmlspecialchars($producto['FechaHora']); ?></p>
+                                    <label for="comentario_<?= htmlspecialchars($producto['Producto_ID']); ?>">Deja tu comentario:</label>
+                                    <textarea id="comentario_<?= htmlspecialchars($producto['Producto_ID']); ?>" 
+                                            name="comentario_<?= htmlspecialchars($producto['Producto_ID']); ?>" 
+                                            required></textarea>
 
-                            $sql4 = "SELECT * FROM Carrito WHERE Usu_ID = '$idusuario' AND Estado = 1";
-                            $stmt4 = $miConexion->prepare($sql4);
-                            $stmt4->execute();
+                                    <label for="calificacion_<?= htmlspecialchars($producto['Producto_ID']); ?>">
+                                        Calificación (1-10):
+                                    </label>
+                                    <select id="calificacion_<?= htmlspecialchars($producto['Producto_ID']); ?>" 
+                                            name="calificacion_<?= htmlspecialchars($producto['Producto_ID']); ?>" 
+                                            required>
+                                        <?php for ($i = 1; $i <= 10; $i++): ?>
+                                            <option value="<?= $i; ?>"><?= $i; ?></option>
+                                        <?php endfor; ?>
+                                    </select>        
+                                </div>
+                            <?php endforeach; ?>
+                            <button type="submit">Enviar Comentarios</button>
+                        </form>
+                    <?php else: ?>
+                        <p>No has comprado productos recientemente.</p>
+                    <?php endif; ?>
 
-                            foreach($stmt4 as $row4)
-                            {
-                                $idcarrito = $row4['Carrito_ID'];
-                                $idproducto = $row4['Prod_ID'];
-
-                                $sql5 = "SELECT * FROM Producto WHERE Producto_ID = '$idproducto'";
-                                $stmt5 = $miConexion->prepare($sql5);
-                                $stmt5->execute();
-
-                                foreach($stmt5 as $row5)
-                                {
-                                    $nombreproducto = $row5['Nombre'];
-                    ?>
-                                    <form action="../PHP/agcom.php" method="post">
-                                        <b><?php echo $nombreproducto; ?></b>
-                                        <br>
-                                        <input type="hidden" id="idprod" name="idprod" value="<?php echo $idproducto;?>">
-                                        <input type="hidden" id="idcarr" name="idcarr" value="<?php echo $idcarrito;?>">
-                                        <b><label>Comentario</label></b>
-                                        <br>
-                                        <textarea id="com" name="com"></textarea>
-                                        <br>
-                                        <br>
-                                        <b><label>Puntaje (1 - 10)</label></b>
-                                        <br>
-                                        <input type="number" id="punt" name="punt">
-                                        <button type="submit">Enviar</button>
-                                        <br>
-                                        <br>
-                                        <hr>
-                                    </form>
-                    <?php
-                                }
-                            }
-                        }
-                    ?>
                 </div>
             </div>
         </div>
@@ -161,8 +129,8 @@ $stmt2->execute();
         <div class="footer_container">
             <div class="footer_box">
                 <div class="logo">
-                    <i class="fa-solid fa-hashtag"></i>
-                    <h1>U-Shop</h1>
+
+                    <h1>F-Store</h1>
                 </div>
                 <div class="terminos">
                     <p>La Empresa En Sí Es Una Empresa Muy Exitosa. ¿A Él El Placer De Las Penas, La Culpa De Los
@@ -173,23 +141,14 @@ $stmt2->execute();
 
             <div class="footer_box">
                 <h3>Creadores</h3>
-                <a href="#">A</a>
-                <a href="#">B</a>
-                <a href="#">C</a>
-                <a href="#">D</a>
+                <p>Contáctanos y estaremos encantados de ayudarte.</p>
             </div>
 
-            <div class="footer_box">
-                <h3>Contacto</h3>
-                <a href="#">A</a>
-                <a href="#">B</a>
-                <a href="#">C</a>
-                <a href="#">D</a>
-            </div>
+
 
             <div class="box__copyright">
                 <hr>
-                <p>Todos los derechos reservados © 2023 <b>U-Shop</b></p>
+                <p>Todos los derechos reservados © 2024 <b>F-Store</b></p>
             </div>
 
         </div>

@@ -262,8 +262,8 @@ $stmt6->execute();
                         success: function (response) {
                             // Manejar la respuesta, si es necesario
                             console.log(response);
-                            // Redirige a Venta.php después de que la transacción se haya completado
-                           // window.location.href = '../PHP/Venta.php';
+                            // Redirige a Comentarios.php después de que la transacción se haya completado
+                            window.location.href = '../HTML/Comentarios.php';  // Redirección aquí
                         }
                     });
                 });
