@@ -1,11 +1,11 @@
-CREATE DATABASE BDM;
+CREATE DATABASE IF NOT EXISTS BDM;
 use BDM;
 
 DROP TABLE IF EXISTS Pedido;
 DROP TABLE IF EXISTS Comentario;
 DROP TABLE IF EXISTS Venta;
-DROP TABLE IF EXISTS Producto_cotizable;
 DROP TABLE IF EXISTS Mensajes;
+DROP TABLE IF EXISTS Producto_cotizable;
 DROP TABLE IF EXISTS Contactos;
 DROP TABLE IF EXISTS Carrito;
 DROP TABLE IF EXISTS ProdCot_ADMIN;
@@ -147,17 +147,6 @@ CREATE TABLE Contactos(
     FOREIGN KEY (IdUsuariocon) REFERENCES Usuario(Usuario_ID)
 );
 
-CREATE TABLE Mensajes(
-	ID_usuario INT,
-    Mensaje VARCHAR(200),
-    ID_usuariorecibidor INT,
-    Producto_ID INT,
- 
-     FOREIGN KEY (Producto_ID) REFERENCES Producto_cotizable(Producto_ID),
-    FOREIGN KEY (ID_usuario) REFERENCES Usuario(Usuario_ID),
-    FOREIGN KEY (ID_usuariorecibidor) REFERENCES Usuario(Usuario_ID)
-);
-
 CREATE TABLE Producto_cotizable(
     Producto_ID INT auto_increment PRIMARY KEY,
     Producto_ID2 INT,
@@ -172,6 +161,17 @@ CREATE TABLE Producto_cotizable(
      FOREIGN KEY (ID_usuario) REFERENCES Usuario(Usuario_ID),
     FOREIGN KEY (ID_usuariorecibidor) REFERENCES Usuario(Usuario_ID)
     
+);
+
+CREATE TABLE Mensajes(
+	ID_usuario INT,
+    Mensaje VARCHAR(200),
+    ID_usuariorecibidor INT,
+    Producto_ID INT,
+ 
+     FOREIGN KEY (Producto_ID) REFERENCES Producto_cotizable(Producto_ID),
+    FOREIGN KEY (ID_usuario) REFERENCES Usuario(Usuario_ID),
+    FOREIGN KEY (ID_usuariorecibidor) REFERENCES Usuario(Usuario_ID)
 );
 
 CREATE TABLE Venta(
