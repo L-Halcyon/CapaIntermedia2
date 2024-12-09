@@ -1,3 +1,24 @@
+use BDM;
+
+DROP PROCEDURE IF EXISTS ModificarUsuario;
+DROP PROCEDURE IF EXISTS EditarCategoria;
+DROP PROCEDURE IF EXISTS EditarLista;
+DROP PROCEDURE IF EXISTS InsertarProductoCotizable;
+DROP PROCEDURE IF EXISTS MarcarProductoCotizableAceptado;
+DROP PROCEDURE IF EXISTS InsertarAlCarrito;
+DROP PROCEDURE IF EXISTS ModificarProducto;
+
+DROP VIEW IF EXISTS V1;
+DROP VIEW IF EXISTS V4;
+DROP VIEW IF EXISTS V5;
+
+DROP TRIGGER IF EXISTS T1;
+DROP TRIGGER IF EXISTS T2;
+
+DROP FUNCTION IF EXISTS F1;
+DROP FUNCTION IF EXISTS F2;
+
+
 DELIMITER //
 
 CREATE PROCEDURE ModificarUsuario (
@@ -84,7 +105,7 @@ BEGIN
 END //
 
 DELIMITER ;
-DROP PROCEDURE IF EXISTS MarcarProductoCotizableAceptado;
+-- DROP PROCEDURE IF EXISTS MarcarProductoCotizableAceptado;
 DELIMITER //
 
 CREATE PROCEDURE MarcarProductoCotizableAceptado(
@@ -142,7 +163,7 @@ BEGIN
     WHERE Producto_ID = id_producto;
 END //
 DELIMITER ;
-DROP PROCEDURE IF EXISTS ModificarProducto;
+-- DROP PROCEDURE IF EXISTS ModificarProducto;
 /* ---------- VIEW aqui faltan views ---------- */
 create view V1 as SELECT * FROM Producto WHERE Validado = 0 AND Eliminado = 0;
 create view V4 as SELECT * FROM Categoria WHERE Eliminado = 0;
