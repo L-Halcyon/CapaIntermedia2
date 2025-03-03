@@ -19,7 +19,7 @@ $stmt->bindParam(':usuario', $usuario);
 $stmt->execute();
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 $usuarioID = $user['Usuario_ID'];
-auishfdoaihfdlahfdlajk<hfn*/
+auishfdoaihfdlahfdlajk<hfnhgsrgsrfgsdrgsfgsgs*/
 
 $usuarioID = $_SESSION['user_id'];
 
