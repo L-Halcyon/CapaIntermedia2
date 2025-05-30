@@ -36,7 +36,7 @@ if(count($contraE) > 0)
     echo '<script>window.location.href="../HTML/InicioSesion.php"; alert("' . $result . '"); </script>';
 }*/
 else{
-    $sql = "SELECT * FROM Usuario WHERE NomUsu=? and Contrasena=? AND Eliminado=0";
+    $sql = "SELECT * FROM Usuario WHERE Correo=? and Contrasena=? AND Eliminado=0";
     $stmt = $miConexion->prepare($sql);
     
     if ($stmt) {
