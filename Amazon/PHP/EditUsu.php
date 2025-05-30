@@ -4,7 +4,13 @@ require_once "../PHP/conexion.php";
 $conexion = new Conexion();
 $miConexion = $conexion->obtenerConexion();
 
-$usuarioID = $_POST['ID']; // Suponiendo que tengas un campo oculto en tu formulario que contenga el ID del usuario que deseas modificar
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../HTML/InicioSesion.php");
+    exit();
+}
+$usuarioID = $_SESSION['user_id'];
+
 $Nombre = $_POST['Nombres'];
 $Apellido = $_POST['Apellidos'];
 $FechaNac = $_POST['FechadeNacimiento'];
@@ -84,7 +90,7 @@ else{
     }
    
 
-if(buscaRepetido($Usuario, $Correo, $miConexion) == 1){
+if(buscaRepetido($Usuario, $Correo, $miConexion, $usuarioID) == 1){
     echo '<script>window.location.href="../HTML/EditUsu.php"; alert("El usuario ' . $Usuario . ' ya existe"); </script>';
     exit();
 } else {
@@ -123,13 +129,14 @@ $stmt->bindParam(8, $genero); // Corregido a 8 en lugar de 9
 // Cerrar la conexión al finalizar
 $miConexion = null;
 }
-function buscaRepetido($usuario, $correo, $conexion) {
-    $sql = "SELECT * FROM Usuario WHERE NomUsu=? OR Correo=?";
+function buscaRepetido($usuario, $correo, $conexion, $idActual) {
+    $sql = "SELECT * FROM Usuario WHERE (NomUsu = ? OR Correo = ?) AND Usuario_ID != ?";
     $stmt = $conexion->prepare($sql);
 
     if ($stmt) {
         $stmt->bindParam(1, $usuario);
         $stmt->bindParam(2, $correo);
+        $stmt->bindParam(3, $idActual);
         $stmt->execute();
 
         if($stmt->rowCount() > 0) {
@@ -139,4 +146,5 @@ function buscaRepetido($usuario, $correo, $conexion) {
 
     return 0;
 }
+
 ?>
