@@ -47,12 +47,14 @@ else{
         if($stmt->rowCount() > 0) {
             
             session_start();
-            $_SESSION['username'] = $usuario;
+            //$_SESSION['username'] = $usuario;
            
             foreach($stmt as $row)
             {
                 $priv = $row['Privacidad'];
                 $usuarioID = $row['Usuario_ID'];
+                $user = $row['NomUsu'];
+                $_SESSION['username'] = $user;
                 $_SESSION['user_id'] = $usuarioID;
                 $_SESSION['TipoUsu'] =  $priv;
                 if($priv == 0 || $priv == 1)
