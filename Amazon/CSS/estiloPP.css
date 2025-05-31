@@ -54,15 +54,17 @@ body {
 
 /*NAVBAR*/
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 60px;
-    background-color: rgb(255, 255, 255);
-    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.1);
-    width: 100%;
-    position: fixed;
-    z-index: 2;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    height: 60px !important;
+    background-color: rgb(255, 255, 255) !important;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.1) !important;
+    width: 100% !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 1000 !important;
 }
 
 .logo {
@@ -352,14 +354,18 @@ footer {
 
 
 
+/* Contenedor principal - mantiene el producto centrado arriba */
 .contenedor {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: auto;
-    padding: 100px 0px 100px 0px;
+    max-width: 800px;
+    margin: 100px auto;
+    padding: 20px;
+    gap: 30px;
 }
 
+/* Estilo del producto (se mantiene igual) */
 .area1 {
     background-color: #333;
     padding: 40px;
@@ -367,10 +373,62 @@ footer {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     color: white;
     text-align: center;
-    justify-content: center;
-    width: auto;
+    width: 100%;
+    max-width: 600px;
 }
 
+/* Contenedor de comentarios - centrado abajo */
+.comentarios {
+    width: 100%;
+    max-width: 600px;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-top: 0;
+}
+
+/* Estilos de comentarios (mejorados pero manteniendo esencia) */
+.comentarios h3 {
+    color: #333;
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.comentario-item {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.comentario-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.comentario-usuario {
+    font-weight: 600;
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.comentario-texto {
+    color: #555;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+.comentario-valoracion {
+    font-size: 14px;
+    color: #3498db;
+    font-weight: 500;
+}
+
+/* El resto de tus estilos se mantienen igual */
 .contenido {
     max-width: 600px;
     margin: 0 auto;
@@ -393,13 +451,11 @@ textarea {
     border-radius: 20px;
 }
 
-
-
-.contenido > .Encabezado:first-child{
-font-size: 25px;
+.contenido > .Encabezado:first-child {
+    font-size: 25px;
 }
 
-.contenido button{
+.contenido button {
     background: black;
     color: white;
     width: 50%;
@@ -411,21 +467,19 @@ font-size: 25px;
 }
 
 .contenido button:hover {
-
     border: 2px solid black;
     color: black;
 }
 
-.contenido button a{
+.contenido button a {
     color: white;
 }
 
-
-.formulario__btn{
+.formulario__btn {
     height: 45px;
     line-height: 45px;
     width: 30%;
-    background:  #339EFF;
+    background: #339EFF;
     color: white;
     font-weight: bold;
     border: none;

@@ -28,7 +28,7 @@ $stmt8->execute();
 
 ?>
 <!DOCTYPE html>
-<html>
+<html>          
 
 <head>
     <meta charset="UTF-8">
@@ -189,34 +189,33 @@ $stmt8->execute();
                 ?>
             </div>
         </div>
-        <div class="comentarios">
+       <div class="comentarios">
+            <h3>Comentarios</h3>
             <?php
-                $sql9 = "SELECT * FROM Comentario WHERE Prod_ID = '$idproducto'";
-                $stmt9 = $miConexion->prepare($sql9);
-                $stmt9->execute();
+            $sql9 = "SELECT * FROM Comentario WHERE Prod_ID = '$idproducto'";
+            $stmt9 = $miConexion->prepare($sql9);
+            $stmt9->execute();
 
-                foreach($stmt9 as $row9)
-                {
-                    $idusuariocom = $row9['Usu_ID'];
-                    $comen = $row9['Comentario'];
-                    $puntaje = $row9['Valoracion'];
+            foreach($stmt9 as $row9) {
+                $idusuariocom = $row9['Usu_ID'];
+                $comen = $row9['Comentario'];
+                $puntaje = $row9['Valoracion'];
 
-                    $sql10 = "SELECT * FROM Usuario WHERE Usuario_ID = '$idusuariocom'";
-                    $stmt10 = $miConexion->prepare($sql10);
-                    $stmt10->execute();
+                $sql10 = "SELECT * FROM Usuario WHERE Usuario_ID = '$idusuariocom'";
+                $stmt10 = $miConexion->prepare($sql10);
+                $stmt10->execute();
 
-                    foreach($stmt10 as $row10)
-                    {
-                        $nombreusucom = $row10['NomUsu'];
-
-                        echo $nombreusucom;
-                        echo "<br>";
-                        echo $comen;
-                        echo "<br>";
-                        echo "Valoracion: ".$puntaje;
-                        echo "<hr>";
-                    }
+                foreach($stmt10 as $row10) {
+                    $nombreusucom = $row10['NomUsu'];
+                    
+                    echo '<div class="comentario-item">';
+                    echo '<div class="comentario-usuario">' . $nombreusucom . '</div>';
+                    echo '<div class="comentario-texto">' . $comen . '</div>';
+                    echo '<div class="comentario-valoracion">Valoración: ' . $puntaje . '</div>';
+                    echo '</div>';
+                    echo '<hr>';
                 }
+            }
             ?>
         </div>
     </div>
