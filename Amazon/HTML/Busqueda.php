@@ -65,7 +65,7 @@
                     </select>
                 </div>
                 <div class="c2">
-                <div id="resultadoBusqueda"></div>
+               <div id="resultadoBusqueda" class="contenedor-tarjetas"></div>
                 </div>
             </div>
         </div>
@@ -129,23 +129,27 @@
 });
 
 function mostrarResultados(data) {
-    var resultadoHTML = '';
+    const contenedor = document.getElementById('resultadoBusqueda');
+    contenedor.innerHTML = '';
 
-    if (data.items.length > 0) {
-        data.items.forEach(function(producto) {
-            resultadoHTML += `
-                <div class="producto">
-                    <h3>${producto.Nombre}</h3>
-                    <p>${producto.Descripcion}</p>
-                    <p>Precio: $${producto.Precio}</p>
-                </div>`;
+    if (data.items && data.items.length > 0) {
+        data.items.forEach(producto => {
+            const card = document.createElement('div');
+            card.className = 'producto-card';
+            card.innerHTML = `
+                ${producto.Imagen ? 
+                    `<img src="${producto.Imagen}" alt="${producto.Nombre}">` : 
+                    '<div class="img-placeholder">Sin imagen</div>'}
+                <h3>${producto.Nombre || 'Producto'}</h3>
+                <p class="precio">${producto.Precio == 0 ? 'Cotizar' : '$'+producto.Precio}</p>
+                <button>
+                    <a href="Producto.php?idprod=${producto.Producto_ID}">Ver producto</a>
+                </button>
+            `;
+            contenedor.appendChild(card);
         });
     } else {
-        resultadoHTML = '<p>No se encontraron productos.</p>';
+        contenedor.innerHTML = '<p class="no-results">No se encontraron productos</p>';
     }
-
-    // Asegúrate de que el selector del contenedor sea correcto
-    $('#resultadoBusqueda').html(resultadoHTML);
 }
-
     </script>

@@ -7,10 +7,13 @@ class ApiProductos {
         $productos = array();
         $productos["items"] = array();
 
-        $res = $this->obtenerproductos($conexion);
+        $res = $this->obtenerproductos($conexion, $keyword);
 
         if ($res->rowCount()) {
             while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
+                // Obtener la primera imagen del producto
+                $imagenData = $this->obtenerImagenProducto($conexion, $row['Producto_ID']);
+                
                 $item = array(
                     'Producto_ID' => $row['Producto_ID'],
                     'Descripcion' => $row['Descripcion'],
@@ -19,7 +22,9 @@ class ApiProductos {
                     'Tipo_Oferta' => $row['Tipo_Oferta'],
                     'Disponibilidad' => $row['Disponibilidad'],
                     'Eliminado' => $row['Eliminado'],
-                    'Usu_ID' => $row['Usu_ID']
+                    'Usu_ID' => $row['Usu_ID'],
+                    'Imagen' => $imagenData ? "data:".$imagenData['tipo'].";base64,".base64_encode($imagenData['imagen']) : null,
+                    'TipoImagen' => $imagenData ? $imagenData['tipo'] : null
                 );
                 array_push($productos['items'], $item);
             }
@@ -29,16 +34,27 @@ class ApiProductos {
         }
     }
 
-    /*function obtenerproductos($conexion) {
-        $query = $conexion->obtenerConexion()->query("SELECT * FROM Producto");
-        return $query;
-    }*/
-    function obtenerproductos($conexion) {
-        $query = $conexion->obtenerConexion()->prepare("SELECT * FROM Producto WHERE Nombre LIKE :keyword");
-        $query->execute(['keyword' => '%' . $_GET['keyword'] . '%']);
+    function obtenerproductos($conexion, $keyword) {
+        $query = $conexion->obtenerConexion()->prepare("SELECT * FROM Producto WHERE Nombre LIKE :keyword AND Eliminado = 0 AND Disponibilidad > 0");
+        $query->execute(['keyword' => '%' . $keyword . '%']);
         return $query;
     }
     
+    function obtenerImagenProducto($conexion, $productoId) {
+        // Obtener el ID de la primera imagen del producto
+        $query = $conexion->obtenerConexion()->prepare(
+            "SELECT i.imagen, i.tipo 
+             FROM Imagen_Prod i 
+             WHERE i.Prod_ID = :productoId 
+             ORDER BY i.Imagen_ID ASC 
+             LIMIT 1");
+        $query->execute(['productoId' => $productoId]);
+        
+        if ($query->rowCount() > 0) {
+            return $query->fetch(PDO::FETCH_ASSOC);
+        }
+        return null;
+    }
 }
 
 if (isset($_GET['keyword'])) {

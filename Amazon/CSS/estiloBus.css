@@ -288,81 +288,200 @@ footer {
     color: white;
 }
 
-.c{
-    /*padding: 15px;*/
-    text-align: center;
+.c {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.c1{
-    /*font-weight: 700;*/
+
+.c1 {
     background-color: white;
-    display: inline-block;
     text-align: center;
-    width: auto;
-    padding: 20px 200px 20px 200px;
-}
-
-
-
-.c2 {
-    width: 25%;
-
+    width: 100%;
+    padding: 20px;
     margin-bottom: 20px;
-    background-color: white;
-    border-radius: 5px;
-    margin-left: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+/* ESTILOS EXCLUSIVOS PARA C2 (resultados de búsqueda) */
+.c2 {
+    width: 100% !important;
+    padding: 20px !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    display: block !important;
+    margin: 0 !important;
+}
+
+/* Contenedor de tarjetas dentro de c2 */
+.c2 #resultadoBusqueda.contenedor-tarjetas {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
+    gap: 20px !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Tarjetas individuales */
+.c2 .producto-card {
+    background: white !important;
+    border-radius: 10px !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
+    padding: 15px !important;
+    text-align: center !important;
+    transition: all 0.3s ease !important;
+    width: auto !important;
+    margin: 0 !important;
+}
+
+.c2 .producto-card img {
+    width: 100% !important;
+    height: 180px !important;
+    object-fit: contain !important;
+    border-radius: 5px !important;
+    margin-bottom: 10px !important;
+    border: 1px solid #eee !important;
+    display: block !important;
+}
+
+.c2 .producto-card h3 {
+    color: #333 !important;
+    font-size: 16px !important;
+    margin: 10px 0 !important;
+    display: block !important;
+}
+
+.c2 .producto-card .precio {
+    color: #339EFF !important;
+    font-weight: bold !important;
+    font-size: 18px !important;
+    display: block !important;
+    margin: 10px 0 !important;
+}
+
+.c2 .producto-card button {
+    background: #339EFF !important;
+    color: white !important;
+    border: none !important;
+    padding: 8px 15px !important;
+    border-radius: 5px !important;
+    width: 100% !important;
+    display: block !important;
+    cursor: pointer !important;
+    margin-top: 10px !important;
+}
+
+/* ESTILO ESPECÍFICO PARA EL BOTÓN DENTRO DE C2 */
+.c2 .producto-card button a {
+    color: white !important;
+    text-decoration: none !important;
+    display: inline !important; /* Cambiado de block a inline */
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 14px !important;
+}
+
+/* Estilo cuando se hace hover */
+.c2 .producto-card button:hover a {
+    color: white !important; /* Mantiene el color en hover */
+}
+
+/* Ajuste adicional para el botón */
+.c2 .producto-card button {
+    /* Mantén todos tus estilos anteriores */
+    position: relative; /* Añadido */
+    z-index: 1; /* Añadido */
+    overflow: visible; /* Añadido */
+}
+
+.no-results {
     text-align: center;
+    width: 100%;
+    color: #666;
+    font-size: 18px;
+    padding: 40px 0;
 }
 
-.c2 button{
-    background:  #339EFF;
-    color: white;
-    width: 20%;
-    border-radius: 20px ;
-    cursor: pointer;
-    padding: 8px 12px;
-}
-
-.c2 button:hover {
-    background: white;
-    border: 2px solid  #339EFF;
-}
-
-.c2 button a{
-    color: white;
-}
-
-.c2 button:hover a{
-    color: black;
-}
-
-form {
+.img-placeholder {
+    width: 200px;
+    height: 150px;
+    background-color: #f5f5f5;
     display: flex;
     align-items: center;
-    margin-top: 10px;
+    justify-content: center;
+    color: #999;
+    margin-bottom: 10px;
+    border: 1px dashed #ccc;
+    border-radius: 5px;
 }
-
-#buscar {
-    margin-left: 30px;
-    padding: 8px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 15px;
-}
-
-#boton {
-    margin-left: 40px;
-    padding: 8px 12px;
-    font-size: 16px;
-    background-color:#339EFF;
+#formBusqueda button[type="submit"] {
+    background-color: #339EFF;
     color: white;
-    border: 1px solid #339EFF;
+    border: none;
+    padding: 10px 20px;
     border-radius: 20px;
     cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    height: 40px; /* Misma altura que el input */
+    white-space: nowrap; /* Evita que el texto se divida */
 }
 
-#boton:hover {
-    background-color: #fff;
-    color: black;
-    border: 2px solid black;
+/* Efecto hover */
+#formBusqueda button[type="submit"]:hover {
+    background-color: #2878c9;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Efecto al hacer clic */
+#formBusqueda button[type="submit"]:active {
+    transform: translateY(0);
+}
+
+/* FORMULARIO DE BÚSQUEDA AJUSTADO */
+#formBusqueda {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+    align-items: center;
+    justify-content: center;
+    width: auto; /* Cambiado de 100% a auto */
+}
+
+#keyword {
+    padding: 10px 15px;
+    border: 2px solid #339EFF;
+    border-radius: 20px;
+    width: 300px; /* Ancho fijo en lugar de porcentaje */
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+/* FILTROS CORREGIDOS */
+.filtros {
+    margin: 15px 0;
+    text-align: center;
+    width: auto; /* Ajustado para que no ocupe ancho completo */
+    display: inline-block; /* Para que solo ocupe el espacio necesario */
+}
+
+#filtro1 {
+    padding: 8px 15px;
+    min-width: 200px; /* Ancho mínimo para evitar que se aplaste */
+    height: 40px; /* Altura fija para alineación vertical */
+    border: 2px solid #339EFF;
+    border-radius: 20px;
+    background-color: white;
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
 }
