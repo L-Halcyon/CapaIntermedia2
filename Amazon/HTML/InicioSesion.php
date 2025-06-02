@@ -36,9 +36,9 @@
                         <!--Grupo Nombre de Usuario-->
                         <li>
                             <div class="formulario__grupo" id="grupo__nombre_usuario">
-                                <label for="Nombre de Usuario" class="formulario__label">Nombre de Usuario</label>
+                                <label for="Nombre de Usuario" class="formulario__label">Correo</label>
                                 <div class="formulario__grupo-input">
-                                    <input name="NombredeUsuario" class="formulario__input" id="Usuario" type="email" placeholder="Nombre de usuario">
+                                    <input name="NombredeUsuario" class="formulario__input" id="Usuario" type="email" placeholder="Correo Electronico">
                                 </div>
                             </div>
                         </li>

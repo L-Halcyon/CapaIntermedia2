@@ -92,7 +92,7 @@ foreach ($stmt3 as $row) {
             <div class="c">
                 <div class="c1">
                     <br>
-                    <h4>Productos para cotizar</h4>
+                    <h4>Productos pendientes de aprobar</h4>
                     <?php
                         $sql13 = "SELECT * FROM V1";
                         $stmt13 = $miConexion->prepare($sql13);
