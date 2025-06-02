@@ -60,6 +60,6 @@ foreach ($_POST as $key => $value) {
 }
 
 // Redirigir a la página de comentarios con un mensaje de éxito
-header("Location: ../HTML/Comentarios.php?success=true");
+header("Location: ../HTML/Pedidos.php?success=true");
 exit();
 ?>

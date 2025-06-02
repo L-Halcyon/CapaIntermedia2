@@ -5,45 +5,58 @@ $miConexion = $conexion->obtenerConexion();
 
 session_start();
 
-$usuario = $_SESSION['username'];
-$idrecibidor = $_POST['idusu'];
-$idusuario = $_POST['Nomusu'];
+if (!isset($_SESSION['username'], $_POST['idproducto'], $_POST['descripcion'], $_POST['nombre'],
+    $_POST['precio'], $_POST['Cantidad'], $_POST['Especificaciones'], $_POST['idusu'], $_POST['Nomusu'])) {
+    die("Datos faltantes");
+}
+
+// Usuario logueado (vendedor)
+$vendedorNombre = $_SESSION['username'];
+
+// ID del comprador (quien recibirá la propuesta)
+$idComprador = $_POST['Nomusu'];            // ✅ comprador (receptor)
+$idVendedor = $_POST['idusu'];              // ✅ vendedor (emisor)
+
+// Datos del producto
 $idprod = $_POST['idproducto'];
-$idnombre = $_POST['nombre'];
+$nombre = $_POST['nombre'];
 $descripcion = $_POST['descripcion'];
-$precio = $_POST['precio'];
-$Cantidad = $_POST['Cantidad'];
-$Especificaciones = $_POST['Especificaciones'];
+$precio = trim($_POST['precio']);
+$cantidad = trim($_POST['Cantidad']);
+$especificaciones = trim($_POST['Especificaciones']);
 
-if($precio == "")
-{
-    echo '<script>alert("No ha ingresado el precio");</script>';
+// Validaciones
+if ($precio === "" || $cantidad === "" || $especificaciones === "") {
+    echo '<script>alert("Todos los campos son obligatorios."); history.back();</script>';
+    exit();
 }
 
-if($Cantidad == "")
-{
-    echo '<script>alert("No ha ingresado cantidad");</script>';
-}
-if($Especificaciones == "")
-{
-    echo '<script>alert("No ha ingresado especificaciones");</script>';
-}
-else
-{
-    $stmt = $miConexion->prepare("CALL InsertarProductoCotizable('$idprod', '$descripcion', '$idnombre','$precio', '$Cantidad', '$Especificaciones', '$idusuario', '$idrecibidor',0)");
-    $stmt->execute();
+// Inserta propuesta usando parámetros seguros
+$stmt = $miConexion->prepare("CALL InsertarProductoCotizable(:idprod, :descripcion, :nombre, :precio, :cantidad, :especificaciones, :comprador, :vendedor, 0)");
 
-$sql1 = "SELECT * FROM Usuario WHERE Usuario_ID = '$idrecibidor'";
+$stmt->bindParam(':idprod', $idprod);
+$stmt->bindParam(':descripcion', $descripcion);
+$stmt->bindParam(':nombre', $nombre);
+$stmt->bindParam(':precio', $precio);
+$stmt->bindParam(':cantidad', $cantidad);
+$stmt->bindParam(':especificaciones', $especificaciones);
+$stmt->bindParam(':comprador', $idComprador); // 👈 Este es el ID_usuariorecibidor
+$stmt->bindParam(':vendedor', $idVendedor);   // 👈 Este es el que propone
+
+$stmt->execute();
+
+// Obtener nombre de comprador para redirección
+$sql1 = "SELECT NomUsu FROM Usuario WHERE Usuario_ID = :idComprador";
 $stmt1 = $miConexion->prepare($sql1);
+$stmt1->bindParam(':idComprador', $idComprador);
 $stmt1->execute();
+$nombreComprador = $stmt1->fetchColumn();
 
-foreach($stmt1 as $row1)
-{
-    $nombreusuario = $row1['NomUsu'];
-
-    header("location: ../HTML/Cotizar.php?nombusu=".$nombreusuario);
+// Redirigir al chat con el comprador
+if ($nombreComprador) {
+    header("Location: ../HTML/Cotizar.php?nombusu=" . urlencode($nombreComprador));
+    exit();
+} else {
+    echo "No se encontró al usuario receptor.";
 }
-
-}
-
 ?>

@@ -26,7 +26,7 @@ $cant = $_POST['cant'];
        // $stmt1->execute();
         $stmt1 = $miConexion->prepare("CALL InsertarAlCarrito('$cant', '$precio', '$idproducto', '$idusuariocon')");
         $stmt1->execute();
-        header("location: ../HTML/Contactos.php");
+        header("location: ../HTML/Carrito.php");
     }
     else {
         // Manejar el caso donde no se encontró ningún usuario con el nombre dado

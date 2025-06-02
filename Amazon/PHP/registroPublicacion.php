@@ -151,7 +151,7 @@ if (!$cotizable && $precio === "")
                                 $stmt6 = $miConexion->prepare($sql6);
                                 $stmt6->execute();
                                 echo '<script>alert("SUBIDO TODO CON EXITO");</script>';
-                                header("location: ../HTML/PubProd.php");
+                                header("location: ../HTML/PagIni.php");
                             }
                         }
                     }
@@ -201,7 +201,7 @@ if (!$cotizable && $precio === "")
                                 $stmt12 = $miConexion->prepare($sql12);
                                 $stmt12->execute();
                                 echo '<script>alert("SUBIDO TODO CON EXITO");</script>';
-                                header("location: ../HTML/PubProd.php");
+                                header("location: ../HTML/PagIni.php");
                             }
                         }
                     }

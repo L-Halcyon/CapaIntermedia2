@@ -12,15 +12,16 @@ $idusu = $_GET['idusu'];
     $stmt = $miConexion->prepare("CALL MarcarProductoCotizableAceptado('$idprod', 1)");
     $stmt->execute();
 
-$sql1 = "SELECT * FROM Usuario WHERE Usuario_ID = '$idusu'";
+$sql1 = "SELECT * FROM Usuario WHERE NomUsu = :usuario";
 $stmt1 = $miConexion->prepare($sql1);
+$stmt1->bindParam(':usuario', $usuario);
 $stmt1->execute();
 
 foreach($stmt1 as $row1)
 {
     $nombreusuario = $row1['NomUsu'];
 
-    header("location: ../HTML/Cotizar.php?nombusu=".$nombreusuario);
+    header("location: ../HTML/Recibircot.php?nombusu=".$nombreusuario);
 }
 
 

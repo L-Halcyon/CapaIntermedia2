@@ -7,8 +7,8 @@ session_start();
 
 $usuario = $_SESSION['username'];
 
-$usuariorec = $_GET['nombusurec'];
-$idusu = $_GET['idusuario'];
+$usuariorec = isset($_GET['nombusurec']) ? $_GET['nombusurec'] : '';
+$idusu = isset($_GET['idusuario']) ? $_GET['idusuario'] : '';
 
 $q = "SELECT * FROM Usuario WHERE NomUsu = '$usuario'";
 $stmt = $miConexion->prepare($q);
@@ -106,71 +106,79 @@ $stmt4->execute();
         <div class="area1">
             <div class="c">
                 <div class="c1">
-                <h1 class="Titulo">Propuestas</h1>
-                <?php
-                        $stmt3 = $miConexion->prepare($q);
-                        $stmt3->execute();
-
-                        foreach($stmt3 as $row3)
-                        {
-                            $idusuario = $row3['Usuario_ID'];
-
-                            $sql4 = "SELECT * FROM Producto_cotizable WHERE ID_usuariorecibidor = '$idusu ' AND Eliminado = 0";
-                            $stmt4 = $miConexion->prepare($sql4);
-                            $stmt4->execute();
-                    ?>
-                            <table border="1">
-                                <tr>
-                                    <td>Codigo</td>
-                                    <td>Nombre</td>
-                                    <td>Descripcion</td>
-                                    <td>Precio</td>
-                                    <td>Cantidad</td>
-                                    <td>Especificaciones</td>
-                                    <td>Aceptar</td>
-                                </tr>
+                    <h1 class="Titulo">Propuestas Recibidas</h1>
                     <?php
-                                foreach($stmt4 as $row4)
-                                {
-                                    $idproducto = $row4['Producto_ID2'];
-                                    $nombre = $row4['Descripcion'];
-                                    $descripcion =$row4['Nombre'];
-                                    $precio =$row4['Precio'];
-                                    $cant =$row4['Cantidad'];
-                                    $espesificaciones =$row4['Especificaciones'];
+                        // Obtener productos cotizables del cliente actual
+                        $sqlProd = "SELECT * FROM Producto_cotizable WHERE ID_usuariorecibidor = :idusu AND Eliminado = 0";
+                        $stmtProd = $miConexion->prepare($sqlProd);
+                        $stmtProd->bindParam(':idusu', $idusu);
+                        $stmtProd->execute();
+                        $productos = $stmtProd->fetchAll();
 
-                    ?> 
-                    
-                                    <tr>
-                                        <td><?php echo $idproducto; ?></td>
-                                        <td><?php echo  $nombre; ?></td>
-                                        <td><?php echo $descripcion; ?></td>
+                        if ($productos) {
+                            echo "<table border='1'>";
+                            echo "<tr><th>Código</th><th>Nombre</th><th>Descripción</th><th>Precio</th><th>Cantidad</th><th>Especificaciones</th><th>Aceptar</th></tr>";
 
-                                        <td><?php echo $precio; ?></td>
-                                        <td><?php echo $cant; ?></td>
-                                        <td><?php echo $espesificaciones; ?></td>
-                                        <td><a href="../PHP/acepcot.php?idprod=<?php echo $idproducto; ?>&idusu=<?php echo $usuariorec; ?>">Aceptar</a></td>
-
-                                    </tr>
-                    <?php
-                                }
-                    ?>
-                            </table>
-                          
-              
-                    <?php
+                            foreach ($productos as $row4) {
+                                echo "<tr>";
+                                echo "<td>{$row4['Producto_ID2']}</td>";
+                                echo "<td>{$row4['Descripcion']}</td>";
+                                echo "<td>{$row4['Nombre']}</td>";
+                                echo "<td>{$row4['Precio']}</td>";
+                                echo "<td>{$row4['Cantidad']}</td>";
+                                echo "<td>{$row4['Especificaciones']}</td>";
+                                echo "<td><a href='../PHP/acepcot.php?idprod={$row4['Producto_ID2']}&idusu={$usuario}'>Aceptar</a></td>";
+                                echo "</tr>";
+                            }
+                            echo "</table>";
+                        } else {
+                            echo "<p>No tienes propuestas nuevas.</p>";
                         }
                     ?>
-             
-              
 
+                    <h2>Propuestas Aceptadas</h2>
+                    <?php
+                        $row = $stmt->fetch(); // resultado de Usuario
+                        $id_usuario = $row['Usuario_ID'];
 
+                        $sql = "SELECT * FROM Producto_cotizable WHERE ID_usuario = :id_usuario AND Eliminado = 1";
+                        $stmt = $miConexion->prepare($sql);
+                        $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+                        $stmt->execute();
+                        $resultados = $stmt->fetchAll();
+
+                        if ($resultados) {
+                            echo "<table border='1'>";
+                            echo "<tr><th>Producto</th><th>Precio</th><th>Cantidad</th><th>Especificaciones</th><th>Agregar al carrito</th></tr>";
+
+                            foreach ($resultados as $row) {
+                                echo "<tr>";
+                                echo "<td>{$row['Nombre']}</td>"; // nombre del producto
+                                echo "<td>{$row['Precio']}</td>";
+                                echo "<td>{$row['Cantidad']}</td>";
+                                echo "<td>{$row['Especificaciones']}</td>";
+                                echo "<td>
+                                    <form action='../PHP/agcarusv.php' method='post'>
+                                        <input type='hidden' name='producto' value='{$row['Nombre']}'>      
+                                        <input type='hidden' name='idprod' value='{$row['Producto_ID2']}'>                                      
+                                        <input type='hidden' name='Precio' value='{$row['Precio']}'>
+                                        <input type='hidden' name='cant' value='{$row['Cantidad']}'>
+                                        <input type='hidden' name='usuc' value='{$row['ID_usuario']}'>
+                                        <button type='submit'>Agregar al carrito</button>
+                                    </form>
+                                </td>";
+                                echo "</tr>";
+                            }
+
+                            echo "</table>";
+                        } else {
+                            echo "<p>No tienes propuestas aceptadas aún.</p>";
+                        }
+                        ?>
                 </div>
             </div>
         </div>
     </div>
-
-
     <footer>
         <div class="footer_container">
             <div class="footer_box">

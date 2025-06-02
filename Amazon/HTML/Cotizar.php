@@ -5,226 +5,212 @@ $miConexion = $conexion->obtenerConexion();
 
 session_start();
 
-$usuario = $_SESSION['username'];
+if (!isset($_SESSION['username']) || !isset($_GET['nombusu'])) {
+    header("Location: PagIni.php");
+    exit();
+}
 
+$usuario = $_SESSION['username'];
 $usuarioconta = $_GET['nombusu'];
 
-$q = "SELECT * FROM Usuario WHERE NomUsu = '$usuario'";
-$stmt = $miConexion->prepare($q);
-$stmt->execute();
+// Obtener datos del usuario actual
+$stmtUsuario = $miConexion->prepare("SELECT * FROM Usuario WHERE NomUsu = :usuario");
+$stmtUsuario->bindParam(':usuario', $usuario);
+$stmtUsuario->execute();
+$datosUsuario = $stmtUsuario->fetch(PDO::FETCH_ASSOC);
 
-$stmt2 = $miConexion->prepare($q);
-$stmt2->execute();
+// Obtener datos del usuario contacto
+$stmtContacto = $miConexion->prepare("SELECT * FROM Usuario WHERE NomUsu = :contacto");
+$stmtContacto->bindParam(':contacto', $usuarioconta);
+$stmtContacto->execute();
+$datosContacto = $stmtContacto->fetch(PDO::FETCH_ASSOC);
 
-$stmt3 = $miConexion->prepare($q);
-$stmt3->execute();
+// Si alguno de los usuarios no existe
+if (!$datosUsuario || !$datosContacto) {
+    echo "Usuario no encontrado.";
+    exit();
+}
 
-$stmt5 = $miConexion->prepare($q);
-$stmt5->execute();
-
+// Obtener mensajes entre ambos usuarios
+$stmtMensajes = $miConexion->prepare("SELECT * FROM V5 WHERE 
+    (ID_usuario = :id1 AND ID_usuariorecibidor = :id2) OR 
+    (ID_usuario = :id2 AND ID_usuariorecibidor = :id1)
+    ORDER BY FechaHora ASC");
+$stmtMensajes->bindParam(':id1', $datosUsuario['Usuario_ID']);
+$stmtMensajes->bindParam(':id2', $datosContacto['Usuario_ID']);
+$stmtMensajes->execute();
+$mensajes = $stmtMensajes->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>F-Store | Cotizacion</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>F-Store | Cotización</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://kit.fontawesome.com/a23bf762ef.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../Librerias/bootstrap-5.3.1-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/ElementosGenerales.css">
-    <link rel="stylesheet" type="text/css" href="../CSS/Mensajes.css">
+    <link rel="stylesheet" href="../CSS/Mensajes.css">
+    <script src="https://kit.fontawesome.com/a23bf762ef.js" crossorigin="anonymous"></script>
+    <style>
+        #contenedorMensajes {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 15px;
+            background-color: #e5ddd5;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-family: Arial, sans-serif;
+        }
+
+        .mensaje {
+            max-width: 75%;
+            min-width: 120px;       
+            padding: 14px 20px;           
+            border-radius: 15px;
+            font-size: 15px;
+            line-height: 1.6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: 400;
+            color: #202020;
+            position: relative;
+            display: inline-block;
+            clear: both;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            word-break: break-word;
+            background-clip: padding-box;
+        }
+
+        .enviado {
+            background-color: #dcf8c6;
+            align-self: flex-end;
+            border-bottom-right-radius: 0;
+            text-align: left;
+        }
+
+        .recibido {
+            background-color: #fff;
+            align-self: flex-start;
+            border-bottom-left-radius: 0;
+            text-align: left;
+        }
+
+        .hora {
+            display: block;
+            font-size: 11px;
+            color: #666;
+            text-align: right;
+            margin-top: 5px;
+        }
+
+        .mensaje strong {
+            display: block;
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+    </style>
+
 </head>
-
 <body>
-    <header>
-        <a href="PagIni.php" class="logo">
-        <h1 style="color:  #339EFF;">F-Store</h1>
-        </a>
+<header>
+    <a href="PagIni.php" class="logo"><h1 style="color:  #339EFF;">F-Store</h1></a>
+    <hr>
+    <a href="#" class="sub-menu-link"><i class="fa-solid fa-cart-shopping"></i><p>Carrito</p></a>
+    <a href="../HTML/Perfil.php" class="sub-menu-link"><i class="fa-solid fa-right-from-bracket"></i><p>Regresar</p></a>
+</header>
 
-       
-                    <hr>
-                 
-                    <a href="" class="sub-menu-link">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        <p>Carrito</p>
-                        <span></span>
-                    </a>
-                    <a href="../HTML/Perfil.php" class="sub-menu-link">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                        <p>Regresar</p>
-                        <span></span>
-                    </a>
-                </div>
+<div class="contenedor">
+    <div class="area1">
+        <h1 class="Titulo"><?php echo htmlspecialchars($usuarioconta); ?></h1>
+        <div class="card">
+            <div class="card-body" id="contenedorMensajes">
+                Cargando mensajes...
             </div>
-        </div>
+            <div class="card-footer">
+                <form id="formMensaje" action="../PHP/envmensaje.php" method="post" class="input-group">
+                    <input type="hidden" name="idUsu" value="<?php echo $datosUsuario['Usuario_ID']; ?>">
+                    <input type="hidden" name="idUsucon" value="<?php echo $datosContacto['Usuario_ID']; ?>">
+                    <input class="Input_mensaje form-control" type="text" name="mensaje" placeholder="Escribe tu mensaje..." required>
+                    <button class="btn" type="submit">Enviar</button>
+                </form>
 
-        <script>
-            let SubMenu = document.getElementById("SubMenu");
-            function mostrar() {
-                SubMenu.classList.toggle("open-menu")
-            }
-        </script>
-    </header>
+                <?php
+                // Verificar si hay productos en oferta
+                $stmtProductos = $miConexion->prepare("SELECT * FROM Producto WHERE Usu_ID = :idusu AND Tipo_Oferta = 1 AND Eliminado = 0");
+                $stmtProductos->bindParam(':idusu', $datosUsuario['Usuario_ID']);
+                $stmtProductos->execute();
 
-    <div class="contenedor">
-        <div class="area1">
-        <h1 class="Titulo"><?php echo $usuarioconta; ?></h1>
-
-            <div class="card">
-                <div class="card-body">
-                    <?php
-                        $sql6 = "SELECT * FROM Usuario WHERE NomUsu = '$usuarioconta'";
-                        $stmt6 = $miConexion->prepare($sql6);
-                        $stmt6->execute();
-
-                        foreach($stmt5 as $row5)
-                        {
-                            $idusuario1 = $row5['Usuario_ID'];
-                            $usu1 = $row5['NomUsu'];
-
-                            foreach($stmt6 as $row6)
-                            {
-                                $idusuario2 = $row6['Usuario_ID'];
-                                $usu2 = $row6['NomUsu'];
-
-                                $sql7 = "SELECT * FROM V5";
-                                $stmt7 = $miConexion->prepare($sql7);
-                                $stmt7->execute();
-
-                                foreach($stmt7 as $row7)
-                                {
-                                    $idenv = $row7['ID_usuario'];
-                                    $idrec = $row7['ID_usuariorecibidor'];
-                                    $mensaje = $row7['Mensaje'];
-
-                                    if($idusuario1 == $idenv)
-                                    {
-                                        if($idusuario2 == $idrec)
-                                        {
-                                            echo $usu1.": ".$mensaje;
-                                            echo "<br>";
-                                        }
-                                    }
-
-                                    if($idusuario2 == $idenv)
-                                    {
-                                        if($idusuario1 == $idrec)
-                                        {
-                                            echo $usu2.": ".$mensaje;
-                                            echo "<br>";
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    ?>
-                </div>
-                <div class="card-footer">
-                    <div class="input-group">
-                        <form action="../PHP/envmensaje.php" method="post">
-                            <?php
-                                foreach($stmt3 as $row3)
-                                {
-                                    $idusuario = $row3['Usuario_ID'];
-
-                                    $sql4 = "SELECT * FROM Usuario WHERE NomUsu = '$usuarioconta'";
-                                    $stmt4 = $miConexion->prepare($sql4);
-                                    $stmt4->execute();
-
-                                    foreach($stmt4 as $row4)
-                                    {
-                                        $idusuariocon = $row4['Usuario_ID'];
-                            ?>
-                                        <input type="hidden" id="idUsu" name="idUsu" value="<?php echo $idusuario;?>">
-                                        <input type="hidden" id="idUsucon" name="idUsucon" value="<?php echo $idusuariocon;?>">
-                                        <input class="Input_mensaje" type="text" class="form-control" placeholder="Escribe tu mensaje..." id="mensaje" name="mensaje">
-                                        <button class="btn" type="submit">Enviar</button>
-                            <?php
-                                    }
-                                }
-                            ?>
-                        </form>
-                        <?php
-                            $stmt8 = $miConexion->prepare($q);
-                            $stmt8->execute();
-
-                            foreach($stmt8 as $row8)
-                            {
-                                $idusu = $row8['Usuario_ID'];
-
-                                $sql9 = "SELECT * FROM Producto WHERE Usu_ID = '$idusu' AND Tipo_Oferta = 1 AND Eliminado = 0";
-                                $stmt9 = $miConexion->prepare($sql9);
-                                $stmt9->execute();
-
-                                if($stmt9->rowCount() > 0)
-                                {
-                                    ?>
-                                
-                                <div class="boton-derecha">
-<form action="../HTML/Recibircot.php" method="get">
-    <input type="hidden" name="nombusurec" value="<?php echo htmlspecialchars($idusuariocon); ?>">
-    <input type="hidden" name="idusuario" value="<?php echo htmlspecialchars($idusuario); ?>">
-    <button type="submit" class="btn">Ver Propuesta</button>
-</form>
-</div>
-
-                                      <?php
-                                    /*echo "<button ><a href='../HTML/envpcU.php?nombusu=".$usuarioconta."'>Propuesta de Poducto</a></button>";*/
-                                   
-                                }
-                                else{
-                                    ?>
-
-<div class="boton-derecha">
-<form action="../HTML/envpcU.php" method="get">
-    <input type="hidden" name="nombusurec" value="<?php echo htmlspecialchars($idusuariocon); ?>">
-    <input type="hidden" name="idusuario" value="<?php echo htmlspecialchars($idusuario); ?>">
-    <button type="submit" class="btn">Propuesta de Producto</button>
-</form>
-</div>
-                            
-
-<?php
-                                }
-                            }
-                        ?>
-                    </div>
+                $hayPropuesta = $stmtProductos->rowCount() > 0;
+                ?>
+                <div class="boton-derecha">
+                    <form action="<?php echo !$hayPropuesta ? '../HTML/Recibircot.php' : '../HTML/envpcU.php'; ?>" method="get">
+                            <input type="hidden" name="nombusurec" value="<?php echo htmlspecialchars($usuarioconta); ?>"> <!-- nombre del contacto -->
+                            <input type="hidden" name="idusuario" value="<?php echo htmlspecialchars($datosContacto['Usuario_ID']); ?>"> <!-- ID del comprador -->
+                        <button type="submit" class="btn"><?php echo !$hayPropuesta ? 'Ver Propuesta' : 'Propuesta de Producto'; ?></button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-
-    <footer>
-        <div class="footer_container">
-            <div class="footer_box">
-                <div class="logo">
-                   
-                    <h1>F-Store</h1>
-                    </div>
-                <div class="terminos">
-                    <p>La Empresa En Sí Es Una Empresa Muy Exitosa. ¿A Él El Placer De Las Penas, La Culpa De Los
-                        Placeres Fáciles, Resultarán De La Ganancia, Ni Le Explicaré Las Veces Que Quiere Del Odio, O Es
-                        Menor En Otras Ocasiones? Ciertamente Así Es.</p>
-                </div>
+<footer>
+    <div class="footer_container">
+        <div class="footer_box">
+            <div class="logo"><h1>F-Store</h1></div>
+            <div class="terminos">
+                <p>La Empresa En Sí Es Una Empresa Muy Exitosa...</p>
             </div>
-
-            <div class="footer_box">
-                <h3>Creadores</h3>
-                <p>Contáctanos y estaremos encantados de ayudarte.</p>              
-            </div>
-
-            
-
-            <div class="box__copyright">
-                <hr>
-                <p>Todos los derechos reservados © 2024 <b>F-Store</b></p>
-            </div>
-
         </div>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <div class="footer_box">
+            <h3>Creadores</h3>
+            <p>Contáctanos y estaremos encantados de ayudarte.</p>
+        </div>
+        <div class="box__copyright">
+            <hr>
+            <p>Todos los derechos reservados © 2024 <b>F-Store</b></p>
+        </div>
+    </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    let primeraCarga = true;
+    const contenedorMensajes = document.getElementById("contenedorMensajes");
+    const id1 = "<?php echo $datosUsuario['Usuario_ID']; ?>";
+    const id2 = "<?php echo $datosContacto['Usuario_ID']; ?>";
+
+    let scrollForzado = false; // 🟢 bandera para saber si acabas de enviar mensaje
+
+    function cargarMensajes() {
+        fetch(`../PHP/obtener_mensajes.php?id1=${id1}&id2=${id2}`)
+            .then(response => response.text())
+            .then(data => {
+                contenedorMensajes.innerHTML = data;
+
+                const estaCercaDelFinal = contenedorMensajes.scrollHeight - contenedorMensajes.scrollTop - contenedorMensajes.clientHeight < 50;
+
+                if (estaCercaDelFinal || scrollForzado || primeraCarga) {
+                    contenedorMensajes.scrollTop = contenedorMensajes.scrollHeight;
+                    scrollForzado = false;
+                    primeraCarga = false;
+                }
+            });
+    }
+
+
+    setInterval(cargarMensajes, 2000);
+    cargarMensajes();
+
+    const form = document.getElementById("formMensaje");
+    form.addEventListener("submit", () => {
+        scrollForzado = true; // ✅ marcar que se debe hacer scroll tras cargar
+        // limpiar input también si deseas:
+        setTimeout(() => {
+            form.querySelector('input[name="mensaje"]').value = "";
+        }, 100);
+    });
+</script>
 </body>
 </html>
