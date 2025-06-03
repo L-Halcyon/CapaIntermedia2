@@ -4,216 +4,161 @@ redirectIfNotLoggedIn();
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Pragma: no-cache");
 header("Expires: 0");
-?>
 
-<?php
 require_once "../PHP/conexion.php";
+
+if (!isset($_GET['id'])) {
+    echo "ID de perfil no especificado.";
+    exit;
+}
+
+$idPerfil = $_GET['id'];
 $conexion = new Conexion();
 $miConexion = $conexion->obtenerConexion();
 
-//session_start();
-
-$usuario = $_SESSION['user_id'];
-
-$q = "SELECT * FROM Usuario WHERE Usuario_ID = '$usuario'";
+$q = "SELECT * FROM Usuario WHERE Usuario_ID = ?";
 $stmt = $miConexion->prepare($q);
-$stmt->execute();
+$stmt->execute([$idPerfil]);
+$datosPerfil = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$stmt2 = $miConexion->prepare($q);
-$stmt2->execute();
-
-$stmt3 = $miConexion->prepare($q);
-$stmt3->execute();
-
-$stmt4 = $miConexion->prepare($q);
-$stmt4->execute();
-
-$stmt9 = $miConexion->prepare($q);
-$stmt9->execute();
-
-$stmt11 = $miConexion->prepare($q);
-$stmt11->execute();
+if (!$datosPerfil) {
+    echo "Usuario no encontrado.";
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
 <html>
 
 <head>
-    
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <title>F-Store | Perfil</title>
     <script src="https://kit.fontawesome.com/a23bf762ef.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <link rel="stylesheet" href="../CSS/estiloPerf.css">
     <link rel="stylesheet" href="../CSS/ElementosGenerales.css">
-    
-
 </head>
 
 <body>
     <header>
-
         <a href="PagIni.php" class="logo">
-
             <h1>F-Store</h1>
         </a>
-        <nav class="Opciones">
-            
-        </nav>
+        <nav class="Opciones"></nav>
         <hr>
-       
         <a href="Carrito.php" class="sub-menu-link">
             <i class="fa-solid fa-cart-shopping"></i>
             <p>Carrito</p>
-            <span></span>
         </a>
         <a href="../HTML/InicioSesion.php" class="sub-menu-link">
             <i class="fa-solid fa-right-from-bracket"></i>
-            <p>Cerrar Sesion</p>
-            <span></span>
+            <p>Cerrar Sesión</p>
         </a>
         <script>
             let SubMenu = document.getElementById("SubMenu");
-
             function mostrar() {
                 SubMenu.classList.toggle("open-menu")
             }
         </script>
     </header>
+
     <main>
-    <div class="contenedor">
-        <div class="area1">
-       
-        <?php
+        <div class="contenedor">
+            <div class="area1">
+                <?php
+                $id = $datosPerfil['Usuario_ID'];
+                $usu = $datosPerfil['NomUsu'];
+                $priv = $datosPerfil['Privacidad'];
 
-foreach ($stmt3 as $row) {
-    $id = $row['Usuario_ID'];
-    $usu = $row['NomUsu'];
-    $priv = $row['Privacidad'];
+                echo "<p><b>$usu</b><br><br></p>";
 
-    // Mostrar el nombre del usuario
-        echo "<p><b>$usu</b><br><br></p>";
-        // Obtener la imagen del usuario
-        $q5 = "SELECT ImagenPerfil FROM Usuario WHERE Usuario_ID = ?";
-        $stmt5 = $miConexion->prepare($q5);
-        $stmt5->execute([$id]);
+                if ($datosPerfil['ImagenPerfil']) {
+                    $imageData = base64_encode($datosPerfil['ImagenPerfil']);
+                    echo '<img src="data:image/png;base64,' . $imageData . '" height="200" width="250"/>';
+                } else {
+                    echo "<p>No se encontró la imagen del usuario.</p>";
+                }
 
-        if ($stmt5->rowCount() > 0) {
-            $row5 = $stmt5->fetch(PDO::FETCH_ASSOC);
-            $imageData = base64_encode($row5['ImagenPerfil']);
-            echo '<img src="data:image/png;base64,' . $imageData . '" height="200" width="250"/>';
-        } else {
-            echo "<p>No se encontró la imagen del usuario.</p>";
-        }
+                if ($priv == 3) {
+                    echo "<script>alert('Este perfil es privado');</script>";
+                } else {
+                ?>
+                    <br><br>
+                    <h4>LISTAS</h4>
+                    <br>
+                    <h5>Públicas</h5>
+                    <div class="listas-container">
+                        <?php
+                        $sql10 = "SELECT * FROM Lista WHERE Usu_ID = ? AND Tipo = 'publica' AND Eliminado = 0";
+                        $stmt10 = $miConexion->prepare($sql10);
+                        $stmt10->execute([$id]);
 
-    // Verificar si la privacidad del usuario es 1
-    if ($priv === 3) {
-        // Mostrar un mensaje de perfil privado
-        echo "<script>alert('Este perfil es privado');</script>";
-
-    }  
-    
-    else{
-        ?>
-                            <br>
-                            <br>
-                            <h4><?php print("LISTAS"); ?></h4>
-                            <br>
-                            <h5><?php print("Públicas"); ?></h5>
-                            <div class="listas-container">
-                            <?php
-                            foreach($stmt9 as $row9) {
-                                $idusu = $row9['Usuario_ID'];
-
-                                $sql10 = "SELECT * FROM Lista WHERE Usu_ID = '$idusu' AND Tipo = 'publica' AND Eliminado = 0";
-                                $stmt10 = $miConexion->prepare($sql10);
-                                $stmt10->execute();
-
-                                foreach($stmt10 as $row10) {
-                                    $idlista = $row10['Lista_ID'];
-                                    $nombre = $row10['Nombre'];
-                                    $descripcion = $row10['Descripcion'];
-                            ?>
-                                <div class="card-lista">
-                                    <h3><?php echo $nombre; ?></h3>
-                                    <p><?php echo $descripcion; ?></p>
-                                    <div class="acciones">
-                                        <a class="btn-ver" href="verprodlis2.php?idlist=<?php echo $idlista; ?>">Ver Lista</a>                      
-                                    </div>
+                        foreach ($stmt10 as $row10) {
+                            $idlista = $row10['Lista_ID'];
+                            $nombre = $row10['Nombre'];
+                            $descripcion = $row10['Descripcion'];
+                        ?>
+                            <div class="card-lista">
+                                <h3><?= $nombre ?></h3>
+                                <p><?= $descripcion ?></p>
+                                <div class="acciones">
+                                    <a class="btn-ver" href="verprodlis2.php?idlist=<?= $idlista ?>">Ver Lista</a>
                                 </div>
-                            <?php
+                            </div>
+                        <?php } ?>
+                    </div>
+                    <br><br>
+
+                    <h4>PRODUCTOS</h4>
+                    <div class="productos-container">
+                        <?php
+                        $q6 = "SELECT * FROM Producto WHERE Usu_ID = ? AND Eliminado = 0 AND Validado = 1";
+                        $stmt6 = $miConexion->prepare($q6);
+                        $stmt6->execute([$id]);
+
+                        foreach ($stmt6 as $row6) {
+                            $idprod = $row6['Producto_ID'];
+                            $nombre = $row6['Nombre'];
+                            $precio = $row6['Precio'];
+                            $tipooferta = $row6['Tipo_Oferta'];
+                            $imagenHTML = "";
+
+                            $q7 = "SELECT MIN(Imagen_ID) as min_id FROM Imagen_Prod WHERE Prod_ID = ?";
+                            $stmt7 = $miConexion->prepare($q7);
+                            $stmt7->execute([$idprod]);
+                            $row7 = $stmt7->fetch();
+
+                            if ($row7 && $row7['min_id']) {
+                                $q8 = "SELECT * FROM Imagen_Prod WHERE Imagen_ID = ?";
+                                $stmt8 = $miConexion->prepare($q8);
+                                $stmt8->execute([$row7['min_id']]);
+
+                                $row8 = $stmt8->fetch();
+                                if ($row8) {
+                                    $tipofoto = $row8['tipo'];
+                                    $imagfoto = $row8['imagen'];
+                                    $imagenHTML = '<img src="data:' . $tipofoto . ';base64,' . base64_encode($imagfoto) . '" alt="Imagen producto">';
                                 }
                             }
-                            ?>
-                            </div>
-
-                             <br>
-                           <br>
-
-
-                                        <br>
-                                <h4><?php print("PRODUCTOS"); ?></h4>
-                                <div class="productos-container">
-                                <?php
-                                $q6 = "SELECT * FROM Producto WHERE Usu_ID = '$id' AND Eliminado = 0 AND Validado = 1";
-                                $stmt6 = $miConexion->prepare($q6);
-                                $stmt6->execute();
-
-                                foreach($stmt6 as $row6) {
-                                    $idprod = $row6['Producto_ID'];
-                                    $nombre = $row6['Nombre'];
-                                    $precio = $row6['Precio'];
-                                    $tipooferta = $row6['Tipo_Oferta'];
-                                    $imagenHTML = "";
-
-                                    $q7 = "SELECT MIN(Imagen_ID) FROM Imagen_Prod WHERE Prod_ID = '$idprod'";
-                                    $stmt7 = $miConexion->prepare($q7);
-                                    $stmt7->execute();
-
-                                    foreach($stmt7 as $row7) {
-                                        $idfoto = $row7['MIN(Imagen_ID)'];
-                                        $q8 = "SELECT * FROM Imagen_Prod WHERE Imagen_ID = '$idfoto'";
-                                        $stmt8 = $miConexion->prepare($q8);
-                                        $stmt8->execute();
-
-                                        foreach($stmt8 as $row8) {
-                                            $tipofoto = $row8['tipo'];
-                                            $imagfoto = $row8['imagen'];
-                                            $imagenHTML = '<img src="data:' . $tipofoto . ';base64,' . base64_encode($imagfoto) . '" alt="Imagen producto">';
-                                        }
-                                    }
-                                ?>
-                                    <div class="card-producto">
-                                        <?php echo $imagenHTML; ?>
-                                        <h3><?php echo $nombre; ?></h3>
-                                        <p><strong>Precio:</strong> 
-                                            <?php
-                                                if($tipooferta == 0) {
-                                                    echo "$".$precio;
-                                                } else {
-                                                    echo "Cotizado";
-                                                }
-                                            ?>
-                                        </p>
-                                        <div class="acciones">
-                                            <a class="btn-ver" href="Producto.php?idprod=<?php echo $idprod; ?> ">Ver Producto</a>                 
-                                        </div>
-                                    </div>
-                                <?php } ?>
+                        ?>
+                            <div class="card-producto">
+                                <?= $imagenHTML ?>
+                                <h3><?= $nombre ?></h3>
+                                <p><strong>Precio:</strong> 
+                                    <?= ($tipooferta == 0) ? "$" . $precio : "Cotizado" ?>
+                                </p>
+                                <div class="acciones">
+                                    <a class="btn-ver" href="Producto.php?idprod=<?= $idprod ?>">Ver Producto</a>
                                 </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+    </main>
 
-                    <?php
-                        }
-                }
-                    ?>
- 
-                               
-    </div>
-    </div> 
-      
-
-</main>
-<footer>
+    <footer>
         <div class="footer_container">
             <div class="footer_box">
                 <div class="logo">
@@ -221,28 +166,18 @@ foreach ($stmt3 as $row) {
                     <h1>F-Store</h1>
                 </div>
                 <div class="terminos">
-                    <p>La Empresa En Sí Es Una Empresa Muy Exitosa. ¿A Él El Placer De Las Penas, La Culpa De Los
-                        Placeres Fáciles, Resultarán De La Ganancia, Ni Le Explicaré Las Veces Que Quiere Del Odio, O Es
-                        Menor En Otras Ocasiones? Ciertamente Así Es.</p>
+                    <p>La Empresa En Sí Es Una Empresa Muy Exitosa...</p>
                 </div>
             </div>
             <div class="footer_box">
-                <h3>Creadores</h3>
-                <br>
-                <br>
+                <h3>Creadores</h3><br><br>
                 <p>Diego Sebastian Cortés Acosta.</p>
                 <p>Alejandro Calderón Luna.</p>
             </div>
-
-
-
             <div class="box__copyright">
                 <hr>
                 <p>Todos los derechos reservados © 2024 <b>F-Store</b></p>
             </div>
-
-
-
         </div>
     </footer>
 </body>
