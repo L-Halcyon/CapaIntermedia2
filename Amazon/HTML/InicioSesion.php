@@ -92,7 +92,10 @@
 
             <div class="footer_box">
                 <h3>Creadores</h3>
-                <p>Contáctanos y estaremos encantados de ayudarte.</p>
+                <br>
+                <br>
+                <p>Diego Sebastian Cortés Acosta.</p>
+                <p>Alejandro Calderón Luna.</p>
             </div>
 
 

@@ -1,3 +1,11 @@
+<?php
+require_once "../Middleware/middleware.php";
+redirectIfNotLoggedIn();
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Pragma: no-cache");
+header("Expires: 0");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -72,7 +80,10 @@
 
             <div class="footer_box">
                 <h3>Creadores</h3>
-                <p>Contáctanos y estaremos encantados de ayudarte.</p>              
+                <br>
+                <br>
+                <p>Diego Sebastian Cortés Acosta.</p>
+                <p>Alejandro Calderón Luna.</p>       
             </div>
 
             
