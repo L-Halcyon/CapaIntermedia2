@@ -13,9 +13,15 @@ $stmt = $miConexion->prepare($q);
 $stmt->execute();
 
 // Obtener los productos comprados por el usuario desde la tabla Pedido
-$sql = "SELECT p.Nombre, p.Producto_ID, pd.Precio, pd.FechaHora 
+$sql = "SELECT p.Nombre, p.Producto_ID, pd.Precio, pd.FechaHora
         FROM Pedido pd
         JOIN Producto p ON pd.IDProd = p.Producto_ID
+        JOIN (
+            SELECT IDProd, MAX(FechaHora) AS FechaReciente
+            FROM Pedido
+            WHERE Usu_ID = :usuarioID
+            GROUP BY IDProd
+        ) ultimos ON pd.IDProd = ultimos.IDProd AND pd.FechaHora = ultimos.FechaReciente
         WHERE pd.Usu_ID = :usuarioID
         ORDER BY pd.FechaHora DESC";
 $stmt2 = $miConexion->prepare($sql);
@@ -95,7 +101,7 @@ if (count($productosComprados) > 0) {
                             <?php foreach ($productosComprados as $producto): ?>
                                 <div class="producto-comprado">
                                     <p>Producto: <?= htmlspecialchars($producto['Nombre']); ?></p>
-                                    <p>Precio: $<?= htmlspecialchars($producto['Precio']); ?></p>
+                                    <p>Precio Unitario: $<?= htmlspecialchars($producto['Precio']); ?></p>
                                     <p>Fecha de Compra: <?= htmlspecialchars($producto['FechaHora']); ?></p>
                                     <label for="comentario_<?= htmlspecialchars($producto['Producto_ID']); ?>">Deja tu comentario:</label>
                                     <textarea id="comentario_<?= htmlspecialchars($producto['Producto_ID']); ?>" 

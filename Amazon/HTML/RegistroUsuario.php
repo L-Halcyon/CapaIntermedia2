@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="..\CSS\ElementosGenerales.css">
     <link rel="stylesheet" type="text/css" href="..\CSS\RegistroUsuario.css">
     <!-- <script src="https://kit.fontawesome.com/a23bf762ef.js" crossorigin="anonymous"></script> -->
-    <link type="text/javascript" href="..\JS\RegistroUsuario.js">
+    //<link type="text/javascript" href="..\JS\RegistroUsuario.js">
     <link rel="stylesheet" href="../CSS/ElementosGenerales.css">
 
 
@@ -29,7 +29,7 @@
     <main>
         <div class="cuadro">
             <!-- <form action="../PHP/registro.php" onsubmit=" return validarFormulario();" class="formulario" id="formulario" method="post" enctype="multipart/form-data">-->
-            <form action="../PHP/registro.php" class="formulario" id="formulario" method="post" enctype="multipart/form-data" onsubmit="return validarFormulario();">
+            <form class="formulario" id="formulario" enctype="multipart/form-data">
                 <ul class="lista">
 
                     <li>
@@ -148,7 +148,7 @@
                         <div class="formulario__grupo" id="grupo__confirmar_contraseña">
                             <label for="ConfirmarContraseña" class="formulario__label">Confirmar Contraseña</label>
                             <div class="formulario__grupo-input">
-                                <input name="ConfirmarContraseña" id="Confirmar Contraseña" class="formulario__input" type="password" placeholder="Contraseña">
+                                <input name="ConfirmarContraseña" id="ConfirmarContraseña" class="formulario__input" type="password" placeholder="Contraseña">
                                 <span class="material-symbols-rounded">cancel</span>
                                 <p class="formulario__input-error">La confirmacion no coincide con la contraseña
                                     introducida.
@@ -221,7 +221,9 @@
         </div>
     </footer>
 
-    <script src="../JS/RegistroUsuario.js"></script>
+    <!--<script src="../JS/RegistroUsuario.js"></script>-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../JS/Registro.js"></script>
 </body>
 
 </html>

@@ -112,8 +112,9 @@ $stmt2->execute();
                             <td><h4>Fecha y Hora</h4></td>
                             <td><h4>Categoria</h4></td>
                             <td><h4>Producto</h4></td>
-                            <td><h4>Calificacion</h4></td>
+                            <td><h4>Calificacion</h4></td>                            
                             <td><h4>Precio</h4></td>
+                            <td><h4>Cantidad</h4></td>
                         </tr>
                         <?php
                             if(isset($_POST['boton']))

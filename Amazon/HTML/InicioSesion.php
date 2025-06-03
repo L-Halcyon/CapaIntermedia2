@@ -27,7 +27,7 @@
     <main>
         <div class="cuadro">
             <div class="contenido">
-                <form action="../PHP/loguear.php" class="formulario" id="formulario" method="POST">
+                <form id="loginForm">
                 <!--<form onsubmit="return validarFormulario();" class="formulario" id="formulario" method="POST">-->
                     <ul class="lista">
                         <li>
@@ -51,6 +51,10 @@
                                     <input name="Contraseña" class="formulario__input" id="Contraseña" type="password" placeholder="Contraseña">
                                 </div>
                             </div>
+                        </li>
+
+                        <li>
+                            <label><input type="checkbox" id="recordarme"> Recordarme</label>
                         </li>
 
                         <li>
@@ -101,8 +105,58 @@
         </div>
     </footer>
 
-    <script src="..\JS\InicioSesion.js"></script>
-    <script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
-</body>
+    <!--<script src="..\JS\InicioSesion.js"></script>-->
+    <!--<script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>-->
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
 
+            const formData = new FormData();
+            formData.append("username", document.getElementById("Usuario").value);
+            formData.append("password", document.getElementById("Contraseña").value);
+
+            try {
+                const response = await fetch("http://localhost/API/api.php?case=login", {
+                    method: "POST",
+                    body: formData,
+                    credentials: "include"
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Guardar en sessionStorage
+                    sessionStorage.setItem("Username", result.usuario.NomUsu);
+                    sessionStorage.setItem("user_id", result.usuario.Usuario_ID);
+                    sessionStorage.setItem("rol", result.usuario.Rol);
+
+                    // ✅ Aquí se maneja el checkbox "recordarme"
+                    const recordarme = document.getElementById("recordarme").checked;
+
+                    if (recordarme) {
+                        document.cookie = `recordarme=${result.usuario.Usuario_ID}; path=/; max-age=${86400 * 30}`;
+                    } else {
+                        document.cookie = "recordarme=; path=/; max-age=0";
+                    }
+                    // Redirección según rol
+                    const rol = result.usuario.Rol?.toLowerCase().trim();
+                    if (rol === "clientes" || rol === "vendedores") {
+                        window.location.href = "../HTML/PagIni.php";
+                    } else if (rol === "administradores") {
+                        window.location.href = "../HTML/PerfilAdmin.php";
+                    } else {
+                        alert("Rol desconocido.");
+                    }
+                } else {
+                    document.getElementById("formulario__mensaje").innerHTML =
+                        `<p><i class="fas fa-exclamation-triangle"></i><b>Error: </b>${result.message}</p>`;
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                document.getElementById("formulario__mensaje").innerHTML =
+                    `<p><i class="fas fa-exclamation-triangle"></i><b>Error:</b> Error en la conexión.</p>`;
+            }
+        });
+    </script>
+</body>
 </html>

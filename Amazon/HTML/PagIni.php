@@ -1,9 +1,17 @@
 <?php
+require_once "../Middleware/middleware.php";
+redirectIfNotLoggedIn();
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Pragma: no-cache");
+header("Expires: 0");
+?>
+
+<?php
 require_once "../PHP/conexion.php";
 $conexion = new Conexion();
 $miConexion = $conexion->obtenerConexion();
 
-session_start();
+//session_start();
 
 $usuario = $_SESSION['user_id'];
 
@@ -15,8 +23,6 @@ $stmt2 = $miConexion->prepare($q);
 $stmt2->execute();
 
 ?>
-
-
 <!DOCTYPE html>
 <html>
 
@@ -82,7 +88,7 @@ $stmt2->execute();
         <div class="cerrar">
             <nav class="cerrrar">
                 <i class="fa-solid fa-right-from-bracket"></i>
-                <a href="../HTML/InicioSesion.php" class="sub-menu-link">Cerrar Sesión </a>
+                <a href="../PHP/cerrar_sesion.php" class="sub-menu-link">Cerrar Sesión</a>
             </nav>
         </div>
     </header>
@@ -112,6 +118,7 @@ $stmt2->execute();
                         foreach($stmt4 as $row4)
                         {
                             $idproducto = $row4['Producto_ID'];
+                            $nombreprod = $row4['Nombre'];
                             $descripcionprod = $row4['Descripcion'];
                             $precioproducto = $row4['Precio'];
 
@@ -134,7 +141,7 @@ $stmt2->execute();
                 ?>
                                     <div class="c2">
                                         <img src="data:<?php echo $Tipo; ?>;base64,<?php echo base64_encode($imagen); ?>" height="150" width="200"/>
-                                        <p><?php echo $descripcionprod; ?></p>
+                                        <p><?php echo $nombreprod; ?></p>
                 <?php
                                         if($precioproducto == 0)
                                         {
@@ -199,6 +206,12 @@ $stmt2->execute();
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../JS/PagIni.js"></script>
+    <script>
+        if (performance.navigation.type === 2) {
+            location.reload(true);
+        }
+    </script>
+
 </body>
 
 </html>
