@@ -37,7 +37,7 @@ else
 
         if($cantidad > $cantidadproducto)
         {
-            echo '<script>alert("Esta cantidad sobrepasa");</script>';
+            echo '<script>window.location.href = "../HTML/PagIni.php"; alert("Esta cantidad sobrepasa");</script>';
         }
         else
         {

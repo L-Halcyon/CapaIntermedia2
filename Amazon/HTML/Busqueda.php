@@ -58,14 +58,23 @@
                 <div class="filtros" id="contenedorFiltros">
                     <!-- Aquí puedes agregar tus elementos de filtro, como un combobox -->
                     <label for="filtro1">Filtros:</label>
-                    <select id="filtro1" name="filtro1">
-                        <option value="opcion1">Mayor a Menor Presio</option>
-                        <option value="opcion2">Mejor calificado</option>
-                        <option value="opcion2">Mas vendidos</option>
-                    </select>
+                        <select id="filtro1" name="filtro">
+                            <option value="">-- Ordenar por --</option>
+                            <option value="precio_asc">Menor a Mayor Precio</option>
+                            <option value="precio_desc">Mayor a Menor Precio</option>
+                            <option value="mejor_calificados">Mejor Calificados</option>
+                            <option value="mas_vendidos">Más Vendidos</option>
+                            <option value="menos_vendidos">Menos Vendidos</option>
+                        </select>
                 </div>
                 <div class="c2">
-               <div id="resultadoBusqueda" class="contenedor-tarjetas"></div>
+                    <!-- Este div evita el error si JS aún lo usa -->
+                    <div id="resultadoBusqueda" style="display: none;"></div>
+
+                    <!-- Resultados divididos -->
+                    <div id="resultadoProductos" class="contenedor-tarjetas"></div>
+                    <hr style="margin: 40px 0;">
+                    <div id="resultadoUsuarios" class="contenedor-tarjetas"></div>
                 </div>
             </div>
         </div>
@@ -105,6 +114,111 @@
 
 </html>
 <script>
+    document.getElementById("formBusqueda").addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const keyword = document.getElementById("keyword").value.trim();
+        const filtro = document.getElementById("filtro1").value;
+        const contenedorProd = document.getElementById("resultadoProductos");
+        const contenedorUsu = document.getElementById("resultadoUsuarios");
+
+        contenedorProd.innerHTML = "";
+        contenedorUsu.innerHTML = "";
+
+        if (!keyword) {
+            contenedorProd.innerHTML = '<div class="no-results">Escribe un término para buscar.</div>';
+            return;
+        }
+
+        try {
+            const res = await fetch(`../PHP/APIBusquedaGeneral.php?keyword=${encodeURIComponent(keyword)}&filtro=${encodeURIComponent(filtro)}`);
+            const data = await res.json();
+
+            if (data.success) {
+                mostrarResultados(data.resultados);
+            } else {
+                contenedorProd.innerHTML = '<div class="no-results">No se encontraron resultados.</div>';
+            }
+        } catch (error) {
+            console.error("Error al buscar:", error);
+            contenedorProd.innerHTML = '<div class="no-results">Error al realizar la búsqueda.</div>';
+        }
+    });
+
+    document.getElementById("filtro1").addEventListener("change", function () {
+        // Simula un submit del formulario
+        document.getElementById("formBusqueda").dispatchEvent(new Event("submit"));
+    });
+
+    function mostrarResultados(data) {
+        const contenedorProd = document.getElementById("resultadoProductos");
+        const contenedorUsu = document.getElementById("resultadoUsuarios");
+
+        contenedorProd.innerHTML = "";
+        contenedorUsu.innerHTML = "";
+
+        const productos = data.filter(item => item.tipo === "producto");
+        const usuarios = data.filter(item => item.tipo === "usuario");
+
+        // Mostrar productos
+        if (productos.length === 0) {
+            contenedorProd.innerHTML = '<div class="no-results">No se encontraron productos.</div>';
+        } else {
+            productos.forEach(item => {
+                const card = document.createElement("div");
+                card.classList.add("producto-card");
+
+                const img = document.createElement("img");
+                img.src = `data:image/jpeg;base64,${item.imagen}`;
+                img.alt = item.nombre;
+                card.appendChild(img);
+
+                const titulo = document.createElement("h3");
+                titulo.textContent = item.nombre;
+                card.appendChild(titulo);
+
+                const precio = document.createElement("span");
+                precio.className = "precio";
+                precio.textContent = `${item.precio}`;
+                card.appendChild(precio);
+
+                const boton = document.createElement("button");
+                boton.innerHTML = `<a href="Producto.php?idprod=${item.id}">Ver producto</a>`;
+                card.appendChild(boton);
+
+                contenedorProd.appendChild(card);
+            });
+        }
+
+        // Mostrar usuarios
+        if (usuarios.length === 0) {
+            contenedorUsu.innerHTML = '<div class="no-results">No se encontraron perfiles.</div>';
+        } else {
+            usuarios.forEach(item => {
+                const card = document.createElement("div");
+                card.classList.add("producto-card");
+
+                const img = document.createElement("img");
+                img.src = `data:image/jpeg;base64,${item.imagen}`;
+                img.alt = item.nombre;
+                card.appendChild(img);
+
+                const titulo = document.createElement("h3");
+                titulo.textContent = item.nombre;
+                card.appendChild(titulo);
+
+                const boton = document.createElement("button");
+                boton.innerHTML = `<a href="../HTML/Perfil.php?id=${item.id}">Ver perfil</a>`;
+                card.appendChild(boton);
+
+                contenedorUsu.appendChild(card);
+            });
+        }
+    }
+
+
+
+    /*
         document.getElementById('formBusqueda').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevenir el envío del formulario
     var keyword = $('#keyword').val();
@@ -152,4 +266,5 @@ function mostrarResultados(data) {
         contenedor.innerHTML = '<p class="no-results">No se encontraron productos</p>';
     }
 }
+    */
     </script>
