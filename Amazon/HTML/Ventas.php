@@ -1,33 +1,26 @@
 <?php
-require_once "../PHP/conexion.php";
-$conexion = new Conexion();
-$miConexion = $conexion->obtenerConexion();
-
 session_start();
+require_once "../PHP/conexion.php";
 
-$usuario = $_SESSION['username'];
+$conexion = new Conexion();
+$db = $conexion->obtenerConexion();
 
-$q = "SELECT * FROM Usuario WHERE NomUsu = '$usuario'";
-$stmt = $miConexion->prepare($q);
+// Obtener categorías activas (no eliminadas)
+$stmt = $db->prepare("SELECT Categoria_ID, Nombre FROM categoria WHERE Eliminado = 0");
 $stmt->execute();
-
-$stmt2 = $miConexion->prepare($q);
-$stmt2->execute();
-
+$categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
-    <title>U-Shop | Ventas Realizadas</title>
+    <title>F-Store | Ventas Realizadas</title>
     <script src="https://kit.fontawesome.com/a23bf762ef.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../Librerias/bootstrap-5.3.1-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/ElementosGenerales.css">
     <link rel="stylesheet" href="../CSS/VentasRealizadas.css">
 </head>
-
 <body>
     <header>
         <a href="PagIni.php" class="logo">
@@ -64,180 +57,43 @@ $stmt2->execute();
         </script>
     </header>
 
-    <div class="contenedor">
-        <div class="area1">
-           
-       
-        <div class="area2">
-            <h1 class="Titulo">Listado de Productos</h1>
+    <div class="contenedor area1">
+        <h2 class="Titulo">Ventas Realizadas</h2>
 
-            <div class="row">
-               <!-- Filtros -->
-                <div class="col-md-3">
-                    <div>
-                        <div class="Encabezado_Tabla">Filtros</div>
-                        <div class="Fitros_Cuerpo">
-                            <form action="Ventas.php" method="post">
-                                <div class="form-group">
-                                    <label for="categoriaProductos">Categoría</label>
-                                    <br>
-                                    <input type="radio" id="categ1" name="categ1" value=0 checked>Todas
-                                    <br>
-                                    <?php
-                                        $sql15 = "SELECT * FROM V4";
-                                        $stmt15 = $miConexion->prepare($sql15);
-                                        $stmt15->execute();
+        <form id="formFiltros" class="Fitros_Cuerpo row justify-content-center">
+            <div class="col-md-3">
+                <label>Desde:</label>
+                <input type="date" name="fechaInicio" class="form-control" >
+            </div>
+            <div class="col-md-3">
+                <label>Hasta:</label>
+                <input type="date" name="fechaFin" class="form-control" >
+            </div>
+            <div class="col-md-3">
+                <label>Categoría:</label>
+                <select name="categoriaID" class="form-select">
+                    <option value="todas">Todas</option>
+                    <?php foreach ($categorias as $cat): ?>
+                        <option value="<?= $cat['Categoria_ID'] ?>"><?= $cat['Nombre'] ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-light boton w-100">Consultar</button>
+            </div>
+        </form>
 
-                                        foreach($stmt15 as $row15)
-                                        {
-                                            $idcateg15 = $row15['Categoria_ID'];
-                                            $nombre15 = $row15['Nombre'];
-                                    ?>
-                                            <input type="radio" id="categ1" name="categ1" value=<?php echo $idcateg15;?>><?php echo $nombre15;?>
-                                            <br>
-                                    <?php
-                                        }
-                                    ?>
-                                </div>
-                                <button type="submit" class="boton" id="boton1" name="boton1">Filtrar</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                 <!-- Listado de Productos -->
-                <div class="col-md-9">
-                    <div class="row Encabezado_Tabla">
-                        <table>
-                            <tr>
-                                <td><h6>Categoria</h6></td>
-                                <td><h6>Producto</h6></td>
-                                <td><h6>Existencia</h6></td>
-                            </tr>
-                            <div class="row Registro_Tabla">
-                                <?php
-                                    if(isset($_POST['boton1']))
-                                    {
-                                        $categoria = $_POST['categ1'];
-
-                                        if($categoria == 0)
-                                        {
-                                            $stmt33 = $miConexion->prepare($q);
-                                            $stmt33->execute();
-
-                                            foreach($stmt33 as $row33)
-                                            {
-                                                $idusuario33 = $row33['Usuario_ID'];
-
-                                                $sql34 = "SELECT * FROM V4";
-                                                $stmt34 = $miConexion->prepare($sql34);
-                                                $stmt34->execute();
-
-                                                foreach($stmt34 as $row34)
-                                                {
-                                                    $idcateg34 = $row34['Categoria_ID'];
-                                                    $nombcateg34 = $row34['Nombre'];
-
-                                                    $sql35 = "SELECT * FROM Producto WHERE categ_ID = '$idcateg34' AND Eliminado = 0";
-                                                    $stmt35 = $miConexion->prepare($sql35);
-                                                    $stmt35->execute();
-
-                                                    foreach($stmt35 as $row35)
-                                                    {
-                                                        $nombprod35 = $row35['Nombre'];
-                                                        $existencia35 = $row35['Disponibilidad'];
-                                ?>
-                                                    <tr>
-                                                        <td><?php echo $nombcateg34; ?></td>
-                                                        <td><?php echo $nombprod35; ?></td>
-                                                        <td><?php echo $existencia35; ?></td>
-                                                    </tr>
-                                <?php
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        else
-                                        {
-                                            $stmt36 = $miConexion->prepare($q);
-                                            $stmt36->execute();
-
-                                            foreach($stmt36 as $row36)
-                                            {
-                                                $idusuario36 = $row36['Usuario_ID'];
-
-                                                $sql37 = "SELECT * FROM Categoria WHERE Categoria_ID = '$categoria'";
-                                                $stmt37 = $miConexion->prepare($sql37);
-                                                $stmt37->execute();
-
-                                                foreach($stmt37 as $row37)
-                                                {
-                                                    $idcateg37 = $row37['Categoria_ID'];
-                                                    $nombcateg37 = $row37['Nombre'];
-
-                                                    $sql38 = "SELECT * FROM Producto WHERE categ_ID = '$idcateg37' AND Eliminado = 0";
-                                                    $stmt38 = $miConexion->prepare($sql38);
-                                                    $stmt38->execute();
-
-                                                    foreach($stmt38 as $row38)
-                                                    {
-                                                        $nombprod38 = $row38['Nombre'];
-                                                        $existencia38 = $row38['Disponibilidad'];
-                                ?>
-                                                        <tr>
-                                                            <td><?php echo $nombcateg37; ?></td>
-                                                            <td><?php echo $nombprod38; ?></td>
-                                                            <td><?php echo $existencia38; ?></td>
-                                                        </tr>
-                                <?php
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        $stmt30 = $miConexion->prepare($q);
-                                        $stmt30->execute();
-
-                                        foreach($stmt30 as $row30)
-                                        {
-                                            $idusuario30 = $row30['Usuario_ID'];
-
-                                            $sql31 = "SELECT * FROM V4";
-                                            $stmt31 = $miConexion->prepare($sql31);
-                                            $stmt31->execute();
-
-                                            foreach($stmt31 as $row31)
-                                            {
-                                                $idcateg31 = $row31['Categoria_ID'];
-                                                $nombcateg31 = $row31['Nombre'];
-
-                                                $sql32 = "SELECT * FROM Producto WHERE categ_ID = '$idcateg31' AND Eliminado = 0";
-                                                $stmt32 = $miConexion->prepare($sql32);
-                                                $stmt32->execute();
-
-                                                foreach($stmt32 as $row32)
-                                                {
-                                                    $nombprod32 = $row32['Nombre'];
-                                                    $existencia32 = $row32['Disponibilidad'];
-                                ?>
-                                                    <tr>
-                                                        <td><?php echo $nombcateg31; ?></td>
-                                                        <td><?php echo $nombprod32; ?></td>
-                                                        <td><?php echo $existencia32; ?></td>
-                                                    </tr>
-                                <?php
-                                                }
-                                            }
-                                        }
-                                    }
-                                ?>
-                            </div>
-                        </table>
-                    </div>
-                </div>
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-4">
+                <button onclick="verVista('detallada')" class="btn btn-dark w-100">Vista Detallada</button>
+            </div>
+            <div class="col-md-4">
+                <button onclick="verVista('agrupada')" class="btn btn-dark w-100">Vista Agrupada</button>
             </div>
         </div>
+
+        <div id="resultadosDetallados" class="mt-4"></div>
+        <div id="resultadosAgrupados" class="mt-4" style="display:none;"></div>
     </div>
 
     <footer>
@@ -270,6 +126,114 @@ $stmt2->execute();
     </footer>
 
     <script src="../Librerias/bootstrap-5.3.1-dist/js/bootstrap.min.js"></script>
-</body>
+    <script>
+        document.getElementById("formFiltros").addEventListener("submit", async function (e) {
+            e.preventDefault();
 
+            const formData = new FormData(e.target);
+            const filtros = {
+                fechaInicio: formData.get("fechaInicio"),
+                fechaFin: formData.get("fechaFin"),
+                categoriaID: formData.get("categoriaID")
+            };
+
+            cargarDatos(filtros, "detallada");
+            cargarDatos(filtros, "agrupada");
+        });
+
+        function verVista(vista) {
+            document.getElementById("resultadosDetallados").style.display = vista === "detallada" ? "block" : "none";
+            document.getElementById("resultadosAgrupados").style.display = vista === "agrupada" ? "block" : "none";
+        }
+
+        async function cargarDatos(filtros, tipo) {
+            try {
+                const response = await fetch(`../PHP/getVentasVendedor.php?tipo=${tipo}&fechaInicio=${filtros.fechaInicio}&fechaFin=${filtros.fechaFin}&categoriaID=${filtros.categoriaID}`);
+                const data = await response.json();
+
+                if (tipo === "detallada") {
+                    mostrarDetallado(data);
+                } else {
+                    mostrarAgrupado(data);
+                }
+            } catch (error) {
+                console.error("Error al cargar los datos:", error);
+            }
+        }
+
+        function mostrarDetallado(data) {
+            const contenedor = document.getElementById("resultadosDetallados");
+            contenedor.innerHTML = "";
+
+            if (data.length === 0) {
+                contenedor.innerHTML = "<p>No se encontraron ventas.</p>";
+                return;
+            }
+
+            const tabla = document.createElement("table");
+            tabla.className = "table table-bordered";
+
+            tabla.innerHTML = `
+                <thead class="Encabezado_Tabla">
+                    <tr>
+                        <th>Fecha y Hora</th>
+                        <th>Categoría</th>
+                        <th>Producto</th>
+                        <th>Calificación</th>
+                        <th>Precio</th>
+                        <th>Existencia</th>
+                    </tr>
+                </thead>
+                <tbody class="Registro_Tabla">
+                    ${data.map(v => `
+                        <tr>
+                            <td>${v.FechaHora}</td>
+                            <td>${v.Categoria}</td>
+                            <td>${v.Producto}</td>
+                            <td>${v.Calificacion ?? 'N/A'}</td>
+                            <td>$${v.Precio.toFixed(2)}</td>
+                            <td>${v.Existencia}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            `;
+
+            contenedor.appendChild(tabla);
+        }
+
+        function mostrarAgrupado(data) {
+            const contenedor = document.getElementById("resultadosAgrupados");
+            contenedor.innerHTML = "";
+
+            if (data.length === 0) {
+                contenedor.innerHTML = "<p>No se encontraron ventas agrupadas.</p>";
+                return;
+            }
+
+            const tabla = document.createElement("table");
+            tabla.className = "table table-bordered";
+
+            tabla.innerHTML = `
+                <thead class="Encabezado_Tabla">
+                    <tr>
+                        <th>Año-Mes</th>
+                        <th>Categoría</th>
+                        <th>Total Ventas</th>
+                    </tr>
+                </thead>
+                <tbody class="Registro_Tabla">
+                    ${data.map(v => `
+                        <tr>
+                            <td>${v.Mes}</td>
+                            <td>${v.Categoria}</td>
+                            <td>${v.TotalVentas}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            `;
+
+            contenedor.appendChild(tabla);
+        }
+    </script>
+</body>
 </html>
