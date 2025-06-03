@@ -30,9 +30,19 @@ $("#formulario").on("submit", function (e) {
                 alert("Respuesta inesperada del servidor.");
             }
         },
-        error: function (err) {
-            console.error("Error al registrar:", err);
-            alert("Error inesperado");
+        error: function (xhr) {
+            console.error("Error al registrar:", xhr);
+
+            try {
+                const data = JSON.parse(xhr.responseText);
+                if (data && data.message) {
+                    alert("Error: " + data.message);
+                } else {
+                    alert("Error inesperado (sin mensaje)");
+                }
+            } catch (e) {
+                alert("Error inesperado (formato desconocido)");
+            }
         }
     });
 });

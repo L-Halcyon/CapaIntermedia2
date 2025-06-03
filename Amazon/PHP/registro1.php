@@ -73,11 +73,21 @@ if (!empty($errores) || !empty($contraErrores)) {
 }
 
 // Validar usuario/correo duplicado
-$stmtCheck = $db->prepare("SELECT * FROM Usuario WHERE NomUsu=? OR Correo=?");
-$stmtCheck->execute([$Usuario, $Correo]);
-if ($stmtCheck->rowCount() > 0) {
+$stmtCheckUser = $db->prepare("SELECT 1 FROM Usuario WHERE NomUsu = ?");
+$stmtCheckUser->execute([$Usuario]);
+
+$stmtCheckCorreo = $db->prepare("SELECT 1 FROM Usuario WHERE Correo = ?");
+$stmtCheckCorreo->execute([$Correo]);
+
+if ($stmtCheckUser->rowCount() > 0) {
     http_response_code(400);
-    echo json_encode(["success" => false, "message" => "Usuario o correo ya existen"]);
+    echo json_encode(["success" => false, "message" => "Nombre de usuario ya está en uso"]);
+    exit;
+}
+
+if ($stmtCheckCorreo->rowCount() > 0) {
+    http_response_code(400);
+    echo json_encode(["success" => false, "message" => "Correo ya registrado"]);
     exit;
 }
 
