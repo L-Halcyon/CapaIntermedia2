@@ -90,59 +90,72 @@ $stmt4->execute();
     </header>
 
     <div class="contenedor">
-        <div class="area1">
-            <div class="c">
-                <div class="c1">
-                    <b><label class="Encabezado">Productos</label></b>
+    <div class="area1">
+        <div class="c">
+            <div class="c1">
+                <b><label class="Encabezado">Productos</label></b>
+                <div class="productos-container">
                     <?php
-                        foreach($stmt3 as $row3)
-                        {
-                            $idproducto = $row3['Prod_ID'];
+                    foreach($stmt3 as $row3) {
+                        $idproducto = $row3['Prod_ID'];
 
-                            $sql5 = "SELECT * FROM Producto WHERE Producto_ID = '$idproducto'";
-                            $stmt5 = $miConexion->prepare($sql5);
-                            $stmt5->execute();
+                        $sql5 = "SELECT * FROM Producto WHERE Producto_ID = '$idproducto' AND Eliminado = 0 AND Validado = 1";
+                        $stmt5 = $miConexion->prepare($sql5);
+                        $stmt5->execute();
 
-                            foreach($stmt5 as $row5)
-                            {
-                                $idproductoselec = $row5['Producto_ID'];
-                                $precio = $row5['Precio'];
-                                $tipooferta = $row5['Tipo_Oferta'];
-                    ?>
-                                <table border="1">
-                                    <tr>
-                                        <td>Nombre</td>
-                                        <td>Descripcion</td>
-                                        <td>Precio</td>
-                                        <td>QUITAR</td>
-                                    </tr>
-                                    <tr>
-                                        <td><?php echo $row5['Nombre']; ?></td>
-                                        <td><?php echo $row5['Descripcion']; ?></td>
-                                        <td>
-                                            <?php
-                                                if($tipooferta == 1)
-                                                {
-                                                    echo $precio;
-                                                }
-                                                else
-                                                {
-                                                    echo "Cotizado";
-                                                }
-                                            ?>
-                                        </td>
-                                        <td><?php echo "<a class='mi-boton' href='../PHP/elimProdlis.php?idprod=".$idproducto."&idlist=".$idlista."'>QUITAR</a>"; ?></td>
-                                    </tr>
-                                </table>
-                    <?php
+                        foreach($stmt5 as $row5) {
+                            $idproductoselec = $row5['Producto_ID'];
+                            $nombre = $row5['Nombre'];
+                            $descripcion = $row5['Descripcion'];
+                            $precio = $row5['Precio'];
+                            $tipooferta = $row5['Tipo_Oferta'];
+                            $imagenHTML = "";
+
+                            // Obtener la primera imagen del producto
+                            $q7 = "SELECT MIN(Imagen_ID) FROM Imagen_Prod WHERE Prod_ID = '$idproductoselec'";
+                            $stmt7 = $miConexion->prepare($q7);
+                            $stmt7->execute();
+
+                            foreach($stmt7 as $row7) {
+                                $idfoto = $row7['MIN(Imagen_ID)'];
+                                $q8 = "SELECT * FROM Imagen_Prod WHERE Imagen_ID = '$idfoto'";
+                                $stmt8 = $miConexion->prepare($q8);
+                                $stmt8->execute();
+
+                                foreach($stmt8 as $row8) {
+                                    $tipofoto = $row8['tipo'];
+                                    $imagfoto = $row8['imagen'];
+                                    $imagenHTML = '<img src="data:' . $tipofoto . ';base64,' . base64_encode($imagfoto) . '" alt="Imagen producto">';
+                                }
                             }
-                        }
                     ?>
-                    
+                            <div class="card-producto">
+                                <?php echo $imagenHTML; ?>
+                                <h3><?php echo $nombre; ?></h3>
+                                <p><?php echo $descripcion; ?></p>
+                                <p><strong>Precio:</strong> 
+                                    <?php
+                                        if($tipooferta == 1) {
+                                            echo "$".$precio;
+                                        } else {
+                                            echo "Cotizado";
+                                        }
+                                    ?>
+                                </p>
+                                <div class="acciones">
+                                    <a class="btn-ver" href="Producto.php?idprod=<?php echo $idproductoselec; ?> ">Ver producto</a>
+                                    <?php echo "<a class='btn-eliminar' href='../PHP/elimProdlis.php?idprod=".$idproducto."&idlist=".$idlista."'>Quitar</a>"; ?>
+                                </div>
+                            </div>
+                    <?php
+                        }
+                    }
+                    ?>
                 </div>
             </div>
         </div>
     </div>
+</div>
     <footer>
         <div class="footer_container">
             <div class="footer_box">

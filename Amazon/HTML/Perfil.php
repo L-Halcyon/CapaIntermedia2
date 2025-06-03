@@ -89,31 +89,27 @@ foreach ($stmt3 as $row) {
     $usu = $row['NomUsu'];
     $priv = $row['Privacidad'];
 
-    // Verificar si la privacidad del usuario es 1
-    if ($priv === 1) {
-        // Mostrar un mensaje de perfil privado
-        echo "<script>alert('Este perfil es privado');</script>";
-        // Mostrar el nombre del usuario
+    // Mostrar el nombre del usuario
         echo "<p><b>$usu</b><br><br></p>";
-
-        // Obtener la imagen del usuario si está disponible
+        // Obtener la imagen del usuario
         $q5 = "SELECT ImagenPerfil FROM Usuario WHERE Usuario_ID = ?";
         $stmt5 = $miConexion->prepare($q5);
         $stmt5->execute([$id]);
 
-        // Verificar si se encontró la imagen del usuario
         if ($stmt5->rowCount() > 0) {
-            // Obtener la fila de resultados
             $row5 = $stmt5->fetch(PDO::FETCH_ASSOC);
-            // Decodificar los datos de la imagen y mostrar la imagen
             $imageData = base64_encode($row5['ImagenPerfil']);
-            echo '<img src="data:image/png;base64,'. $imageData .'" height="200" width="250"/>';
+            echo '<img src="data:image/png;base64,' . $imageData . '" height="200" width="250"/>';
         } else {
-            // Mostrar un mensaje si no se encuentra la imagen del usuario
             echo "<p>No se encontró la imagen del usuario.</p>";
         }
-       
-    }
+
+    // Verificar si la privacidad del usuario es 1
+    if ($priv === 1) {
+        // Mostrar un mensaje de perfil privado
+        echo "<script>alert('Este perfil es privado');</script>";
+
+    }  
     
     else{
         ?>
@@ -121,180 +117,111 @@ foreach ($stmt3 as $row) {
                             <br>
                             <h4><?php print("LISTAS"); ?></h4>
                             <br>
-                            <h5><?php print("Publicas"); ?></h5>
-                          
-                            <table border="1">
-                                <tr>
-                                    <td>Codigo</td>
-                                    <td>Nombre</td>
-                                    <td>Descripcion</td>
-                                    <td>Ver productos</td>
-                                    <td>Editar</td>
-                                    <td>Eliminar</td>
-                                </tr>
-                                
-                                <?php
-                                  foreach($stmt9 as $row9)
-                                  {
-                                      $idusu = $row9['Usuario_ID'];
-  
-                                      $sql10 = "SELECT * FROM Lista WHERE Usu_ID = '$idusu' AND Tipo = 'publica' AND Eliminado = 0";
-                                      $stmt10 = $miConexion->prepare($sql10);
-                                      $stmt10->execute();
-  
-                                      foreach($stmt10 as $row10)
-                                      {
-                                          $idlista = $row10['Lista_ID'];
-                      ?>
-                                         <tr>
-                                            <td><?php echo $idlista; ?></td>
-                                            <td><?php echo $row10['Nombre']; ?></td>
-                                            <td><?php echo $row10['Descripcion']; ?></td>
-                                            <td><?php echo "<a href='verprodlis.php?idlist=".$idlista."'>VER</a>" ?></td>
-                                            <td><?php echo "<a href='Editlis.php?idlist=".$idlista."'>EDITAR</a>" ?></td>
-                                            <td><?php echo "<a href='../PHP/Elimlis.php?idLista=".$idlista."'>ELIMINAR</a>" ?></td>
-                                        </tr>
-                                        <?php
-                                    }
+                            <h5><?php print("Públicas"); ?></h5>
+                            <div class="listas-container">
+                            <?php
+                            foreach($stmt9 as $row9) {
+                                $idusu = $row9['Usuario_ID'];
+
+                                $sql10 = "SELECT * FROM Lista WHERE Usu_ID = '$idusu' AND Tipo = 'publica' AND Eliminado = 0";
+                                $stmt10 = $miConexion->prepare($sql10);
+                                $stmt10->execute();
+
+                                foreach($stmt10 as $row10) {
+                                    $idlista = $row10['Lista_ID'];
+                                    $nombre = $row10['Nombre'];
+                                    $descripcion = $row10['Descripcion'];
+                            ?>
+                                <div class="card-lista">
+                                    <h3><?php echo $nombre; ?></h3>
+                                    <p><?php echo $descripcion; ?></p>
+                                    <div class="acciones">
+                                        <a class="btn-ver" href="verprodlis.php?idlist=<?php echo $idlista; ?>">Ver</a>
+                                        <a class="btn-editar" href="Editlis.php?idlist=<?php echo $idlista; ?>">Editar</a>
+                                        <a class="btn-eliminar" href="../PHP/Elimlis.php?idLista=<?php echo $idlista; ?>">Eliminar</a>
+                                    </div>
+                                </div>
+                            <?php
                                 }
-                    ?>
-                             </table>
+                            }
+                            ?>
+                            </div>
+
                              <br>
-                            <h5><?php print("Privadas"); ?></h4>
-                            <table border="1">
-                                <tr>
-                                    <td>Codigo</td>
-                                    <td>Nombre</td>
-                                    <td>Descripcion</td>
-                                    <td>Ver productos</td>
-                                    <td>Editar</td>
-                                    <td>Eliminar</td>
-                                </tr>
-                    <?php
-                                foreach($stmt11 as $row11)
-                                {
-                                    $idusu = $row11['Usuario_ID'];
+                           <br>
+                            <h5><?php print("Privadas"); ?></h5>
+                            <div class="listas-container">
+                            <?php
+                            foreach($stmt11 as $row11) {
+                                $idusu = $row11['Usuario_ID'];
 
-                                    $sql12 = "SELECT * FROM Lista WHERE Usu_ID = '$idusu' AND Tipo = 'privada' AND Eliminado = 0";
-                                    $stmt12 = $miConexion->prepare($sql12);
-                                    $stmt12->execute();
+                                $sql12 = "SELECT * FROM Lista WHERE Usu_ID = '$idusu' AND Tipo = 'privada' AND Eliminado = 0";
+                                $stmt12 = $miConexion->prepare($sql12);
+                                $stmt12->execute();
 
-                                    foreach($stmt12 as $row12)
-                                    {
-                                        $idlistapriv = $row12['Lista_ID'];
-                    ?>
-                                        <tr>
-                                            <td><?php echo $idlistapriv; ?></td>
-                                            <td><?php echo $row12['Nombre']; ?></td>
-                                            <td><?php echo $row12['Descripcion']; ?></td>
-                                            <td><?php echo "<a href='verprodlis.php?idlist=".$idlistapriv."'>VER</a>" ?></td>
-                                            <td><?php echo "<a href='Editlis.php?idlist=".$idlistapriv."'>EDITAR</a>" ?></td>
-                                            <td><?php echo "<a href='../PHP/Elimlis.php?idlist=".$idlistapriv."'>ELIMINAR</a>" ?></td>
-                                        </tr>
-                    <?php
-                                    }
+                                foreach($stmt12 as $row12) {
+                                    $idlistapriv = $row12['Lista_ID'];
+                                    $nombre = $row12['Nombre'];
+                                    $descripcion = $row12['Descripcion'];
+                            ?>
+                                <div class="card-lista">
+                                    <h3><?php echo $nombre; ?></h3>
+                                    <p><?php echo $descripcion; ?></p>
+                                    <div class="acciones">
+                                        <a class="btn-ver" href="verprodlis.php?idlist=<?php echo $idlistapriv; ?>">Ver</a>
+                                        <a class="btn-editar" href="Editlis.php?idlist=<?php echo $idlistapriv; ?>">Editar</a>
+                                        <a class="btn-eliminar" href="../PHP/Elimlis.php?idlist=<?php echo $idlistapriv; ?>">Eliminar</a>
+                                    </div>
+                                </div>
+                            <?php
                                 }
-                    ?>
-                                </table>
+                            }
+                            ?>
+                            </div>
+
                                         <br>
                                 <h4><?php print("PRODUCTOS"); ?></h4>
-                                <table border="1">
-                                    <tr>
-                                        <td>Codigo Producto</td>
-                                        <td>Nombre</td>
-                                        <td>Foto</td>
-                                        <td>Precio</td>
-                                        <td>Editar</td>
-                                        <td>Eliminar</td>
-                                    </tr>
-                                    <?php
-                                    $q6 = "SELECT * FROM Producto WHERE Usu_ID = '$id' AND Eliminado = 0 AND Validado = 1 AND Tipo_Oferta = 0";
-                                    $stmt6 = $miConexion->prepare($q6);
-                                    $stmt6->execute();
+                                <div class="productos-container">
+                                <?php
+                                $q6 = "SELECT * FROM Producto WHERE Usu_ID = '$id' AND Eliminado = 0 AND Validado = 1 AND Tipo_Oferta = 0";
+                                $stmt6 = $miConexion->prepare($q6);
+                                $stmt6->execute();
 
-                                    foreach($stmt6 as $row6)
-                                    {
-                                        $idprod = $row6['Producto_ID'];
-                                        $precio = $row6['Precio'];
-                    ?>
-                                        <tr>
-                                            <td><?php echo $row6['Producto_ID']; ?></td>
-                                            <td><?php echo $row6['Nombre']; ?></td>
-                                            <td>
-                                                <?php
-                                                    $q7 = "SELECT MIN(Imagen_ID) FROM Imagen_Prod WHERE Prod_ID = '$idprod'";
-                                                    $stmt7 = $miConexion->prepare($q7);
-                                                    $stmt7->execute();
-                                                    
-                                                    foreach($stmt7 as $row7)
-                                                    {
-                                                        $idfoto = $row7['MIN(Imagen_ID)'];
+                                foreach($stmt6 as $row6) {
+                                    $idprod = $row6['Producto_ID'];
+                                    $nombre = $row6['Nombre'];
+                                    $precio = $row6['Precio'];
+                                    $imagenHTML = "";
 
-                                                        $q8 = "SELECT * FROM Imagen_Prod WHERE Imagen_ID = '$idfoto'";
-                                                        $stmt8 = $miConexion->prepare($q8);
-                                                        $stmt8->execute();
+                                    $q7 = "SELECT MIN(Imagen_ID) FROM Imagen_Prod WHERE Prod_ID = '$idprod'";
+                                    $stmt7 = $miConexion->prepare($q7);
+                                    $stmt7->execute();
 
-                                                        foreach($stmt8 as $row8)
-                                                        {
-                                                            $tipofoto = $row8['tipo'];
-                                                            $imagfoto = $row8['imagen'];
-                                                ?>
-                                                            <img src="data:<?php echo $tipofoto; ?>;base64,<?php echo base64_encode($imagfoto); ?>" height="70" width="70"/>
-                                                <?php
-                                                        }
-                                                    }
-                                                ?>
-                                            </td>
-                                            <td><?php echo "$".$precio; ?> </td>
-                                            <td><?php echo "<a href='EditProd.php?idprod=".$idprod."'>EDITAR</a>" ?></td>
-                                            <td><?php echo "<a href='../PHP/ElimProd.php?idprod=".$idprod."'>ELIMINAR</a>" ?></td>
-                                        </tr>
-                    <?php
+                                    foreach($stmt7 as $row7) {
+                                        $idfoto = $row7['MIN(Imagen_ID)'];
+                                        $q8 = "SELECT * FROM Imagen_Prod WHERE Imagen_ID = '$idfoto'";
+                                        $stmt8 = $miConexion->prepare($q8);
+                                        $stmt8->execute();
+
+                                        foreach($stmt8 as $row8) {
+                                            $tipofoto = $row8['tipo'];
+                                            $imagfoto = $row8['imagen'];
+                                            $imagenHTML = '<img src="data:' . $tipofoto . ';base64,' . base64_encode($imagfoto) . '" alt="Imagen producto">';
+                                        }
                                     }
-                                    $sql13 = "SELECT * FROM Producto WHERE Usu_ID = '$id' AND Eliminado = 0 AND Validado = 1 AND Tipo_Oferta = 1";
-                                    $stmt13 = $miConexion->prepare($sql13);
-                                    $stmt13->execute();
+                                ?>
+                                    <div class="card-producto">
+                                        <?php echo $imagenHTML; ?>
+                                        <h3><?php echo $nombre; ?></h3>
+                                        <p><strong>Precio:</strong> $<?php echo $precio; ?></p>
+                                        <div class="acciones">
+                                            <a class="btn-editar" href="EditProd.php?idprod=<?php echo $idprod; ?>">Editar</a>
+                                            <a class="btn-eliminar" href="../PHP/ElimProd.php?idprod=<?php echo $idprod; ?>">Eliminar</a>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                                </div>
 
-                                    foreach($stmt13 as $row13)
-                                    {
-                                        $idprodcot = $row13['Producto_ID'];
-                    ?>
-                                        <tr>
-                                            <td><?php echo $row13['Producto_ID']; ?></td>
-                                            <td><?php echo $row13['Nombre']; ?></td>
-                                            <td>
-                                                <?php
-                                                    $sql14 = "SELECT MIN(Imagen_ID) FROM Imagen_Prod WHERE Prod_ID = '$idprodcot'";
-                                                    $stmt14 = $miConexion->prepare($sql14);
-                                                    $stmt14->execute();
-                                                    
-                                                    foreach($stmt14 as $row14)
-                                                    {
-                                                        $idfotocot = $row14['MIN(Imagen_ID)'];
-
-                                                        $sql15 = "SELECT * FROM Imagen_Prod WHERE Imagen_ID = '$idfotocot'";
-                                                        $stmt15 = $miConexion->prepare($sql15);
-                                                        $stmt15->execute();
-
-                                                        foreach($stmt15 as $row15)
-                                                        {
-                                                            $tipofotocot = $row15['tipo'];
-                                                            $imagfotocot = $row15['imagen'];
-                                                ?>
-                                                            <img src="data:<?php echo $tipofotocot; ?>;base64,<?php echo base64_encode($imagfotocot); ?>" height="70" width="70"/>
-                                                <?php
-                                                        }
-                                                    }
-                                                ?>
-                                            </td>
-                                            <td><?php echo "Este producto es cotizable";?></td>
-                                            <td><?php echo "<a href='EditProd.php?idprod=".$idprodcot."'>EDITAR</a>" ?></td>
-                                            <td><?php echo "<a href='../PHP/ElimProd.php?idprod=".$idprodcot."'>ELIMINAR</a>" ?></td>
-                                        </tr>
-                    <?php
-                                    }
-                    ?>
-                                </table>
                     <?php
                         }
                 }
