@@ -81,10 +81,10 @@ while ($producto = $stmtProd->fetch(PDO::FETCH_ASSOC)) {
 
 
 // Búsqueda de usuarios (sin filtro)
-$sqlUsuarios = "SELECT Usuario_ID, NomUsu, ImagenPerfil 
+$sqlUsuarios = "SELECT Usuario_ID, NomUsu, ImagenPerfil, Rol, Privacidad
                 FROM usuario 
                 WHERE Eliminado = 0 
-                  AND Rol != 'administrador' 
+                  AND Rol != 'administradores' 
                   AND (NomUsu LIKE :termino /*OR Nombres LIKE :termino OR Apellidos LIKE :termino*/)";
 $stmtUser = $db->prepare($sqlUsuarios);
 $stmtUser->execute([':termino' => "%$termino%"]);
@@ -94,7 +94,9 @@ while ($usuario = $stmtUser->fetch(PDO::FETCH_ASSOC)) {
         "tipo" => "usuario",
         "id" => $usuario['Usuario_ID'],
         "nombre" => $usuario['NomUsu'],
-        "imagen" => base64_encode($usuario['ImagenPerfil'])
+        "imagen" => base64_encode($usuario['ImagenPerfil']),
+        "rol" => strtolower($usuario['Rol']),
+        "privado" => $usuario['Privacidad'] == 1
     ];
 }
 

@@ -208,7 +208,19 @@
                 card.appendChild(titulo);
 
                 const boton = document.createElement("button");
-                boton.innerHTML = `<a href="../HTML/Perfil.php?id=${item.id}">Ver perfil</a>`;
+                let perfilURL;
+
+                if (item.privado) {
+                    perfilURL = `../HTML/VerPerfilPrivado.php?id=${item.id}`;
+                } else if (item.rol === "vendedor" || item.rol === "vendedores") {
+                    perfilURL = `../HTML/VerPerfilPublicoV.php?id=${item.id}`;
+                } else if (item.rol === "cliente" || item.rol === "clientes") {
+                    perfilURL = `../HTML/VerPerfilPublicoC.php?id=${item.id}`;
+                } else {
+                    perfilURL = "#"; // fallback en caso de rol inesperado
+                }
+
+                boton.innerHTML = `<a href="${perfilURL}">Ver perfil</a>`;
                 card.appendChild(boton);
 
                 contenedorUsu.appendChild(card);
