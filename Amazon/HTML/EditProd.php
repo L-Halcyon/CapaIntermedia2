@@ -99,8 +99,8 @@ $stmt4->execute();
                         <label style="color: white; font-size: 10px;">(EL VIDEO DEBE PESAR MENOS DE 45MB)</label>
                         <br>
                         <br>
-                        <label class="Encabezado">Categorias: </label>
-                        <br>
+                        <!-- <label class="Encabezado">Categorias: </label>
+                        <br> -->
                        
                             <label class="Encabezado">Categorías: </label>
 <br>

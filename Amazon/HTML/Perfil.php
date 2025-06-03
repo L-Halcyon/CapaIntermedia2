@@ -183,7 +183,7 @@ foreach ($stmt3 as $row) {
                                 <h4><?php print("PRODUCTOS"); ?></h4>
                                 <div class="productos-container">
                                 <?php
-                                $q6 = "SELECT * FROM Producto WHERE Usu_ID = '$id' AND Eliminado = 0 AND Validado = 1 AND Tipo_Oferta = 0";
+                                $q6 = "SELECT * FROM Producto WHERE Usu_ID = '$id' AND Eliminado = 0 AND Validado = 1";
                                 $stmt6 = $miConexion->prepare($q6);
                                 $stmt6->execute();
 
@@ -191,6 +191,7 @@ foreach ($stmt3 as $row) {
                                     $idprod = $row6['Producto_ID'];
                                     $nombre = $row6['Nombre'];
                                     $precio = $row6['Precio'];
+                                    $tipooferta = $row6['Tipo_Oferta'];
                                     $imagenHTML = "";
 
                                     $q7 = "SELECT MIN(Imagen_ID) FROM Imagen_Prod WHERE Prod_ID = '$idprod'";
@@ -213,7 +214,15 @@ foreach ($stmt3 as $row) {
                                     <div class="card-producto">
                                         <?php echo $imagenHTML; ?>
                                         <h3><?php echo $nombre; ?></h3>
-                                        <p><strong>Precio:</strong> $<?php echo $precio; ?></p>
+                                        <p><strong>Precio:</strong> 
+                                            <?php
+                                                if($tipooferta == 0) {
+                                                    echo "$".$precio;
+                                                } else {
+                                                    echo "Cotizado";
+                                                }
+                                            ?>
+                                        </p>
                                         <div class="acciones">
                                             <a class="btn-editar" href="EditProd.php?idprod=<?php echo $idprod; ?>">Editar</a>
                                             <a class="btn-eliminar" href="../PHP/ElimProd.php?idprod=<?php echo $idprod; ?>">Eliminar</a>
