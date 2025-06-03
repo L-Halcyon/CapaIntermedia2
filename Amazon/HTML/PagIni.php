@@ -26,6 +26,10 @@ $usuario = $_SESSION['user_id'];
 $q = "SELECT * FROM Usuario WHERE Usuario_ID = '$usuario'";
 $stmt = $miConexion->prepare($q);
 $stmt->execute();
+$usuarioData = $stmt->fetch(PDO::FETCH_ASSOC);
+$rol = $usuarioData['Privacidad'];
+
+
 
 $stmt2 = $miConexion->prepare($q);
 $stmt2->execute();
@@ -53,7 +57,19 @@ $stmt2->execute();
         <div class="Perfil">
             <nav class="Perfil">
                 <i class="fa-solid fa-user-circle" style="font-size: 24px;"></i>
-                <a href="../HTML/Perfil.php" class="logo">Perfil</a>
+                <?php
+                if ($usuarioData && isset($usuarioData['Rol'])) {
+                    if ($usuarioData['Rol'] === 'vendedores') {
+                        echo '<a href="../HTML/Perfil.php" class="logo">Perfil</a>';
+                    } elseif ($usuarioData['Rol'] === 'clientes') {
+                        echo '<a href="../HTML/PerfilCliente.php" class="logo">Perfil</a>';
+                    } else {
+                        echo '<a href="../HTML/Perfil.php" class="logo">Perfil</a>';
+                    }
+                } else {
+                    echo '<a href="../HTML/Perfil.php" class="logo">Perfil</a>';
+                }
+                ?>
         <?php
                     /*     if ($stmt->rowCount() > 0) {
                             $row = $stmt->fetch(PDO::FETCH_ASSOC);

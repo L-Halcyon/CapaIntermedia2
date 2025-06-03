@@ -58,13 +58,7 @@ $stmt11->execute();
             <h1>F-Store</h1>
         </a>
         <nav class="Opciones">
-            <a href="../HTML/PubProd.php" class="Opc_1">Publicar producto</a>
-            <a href="../HTML/Categorias.php" class="Opc_2">Categorias</a>
-            <a href="../HTML/Listas.php" class="Opc_3">Crear Lista</a>
-            <a href="../HTML/Contactos.php" class="Opc_4">Contactos y cotizaciones</a>
             
-            <a href="../HTML/Ventas.php" class="Opc_5">Mis ventas</a>
-            <a href="../HTML/Pedidos.php" class="Opc_1">Pedidos realizados</a>
         </nav>
         <hr>
        
@@ -144,9 +138,7 @@ foreach ($stmt3 as $row) {
                                     <h3><?php echo $nombre; ?></h3>
                                     <p><?php echo $descripcion; ?></p>
                                     <div class="acciones">
-                                        <a class="btn-ver" href="verprodlis.php?idlist=<?php echo $idlista; ?>">Ver</a>
-                                        <a class="btn-editar" href="Editlis.php?idlist=<?php echo $idlista; ?>">Editar</a>
-                                        <a class="btn-eliminar" href="../PHP/Elimlis.php?idLista=<?php echo $idlista; ?>">Eliminar</a>
+                                        <a class="btn-ver" href="verprodlis2.php?idlist=<?php echo $idlista; ?>">Ver Lista</a>                      
                                     </div>
                                 </div>
                             <?php
@@ -157,35 +149,7 @@ foreach ($stmt3 as $row) {
 
                              <br>
                            <br>
-                            <h5><?php print("Privadas"); ?></h5>
-                            <div class="listas-container">
-                            <?php
-                            foreach($stmt11 as $row11) {
-                                $idusu = $row11['Usuario_ID'];
 
-                                $sql12 = "SELECT * FROM Lista WHERE Usu_ID = '$idusu' AND Tipo = 'privada' AND Eliminado = 0";
-                                $stmt12 = $miConexion->prepare($sql12);
-                                $stmt12->execute();
-
-                                foreach($stmt12 as $row12) {
-                                    $idlistapriv = $row12['Lista_ID'];
-                                    $nombre = $row12['Nombre'];
-                                    $descripcion = $row12['Descripcion'];
-                            ?>
-                                <div class="card-lista">
-                                    <h3><?php echo $nombre; ?></h3>
-                                    <p><?php echo $descripcion; ?></p>
-                                    <div class="acciones">
-                                        <a class="btn-ver" href="verprodlis.php?idlist=<?php echo $idlistapriv; ?>">Ver</a>
-                                        <a class="btn-editar" href="Editlis.php?idlist=<?php echo $idlistapriv; ?>">Editar</a>
-                                        <a class="btn-eliminar" href="../PHP/Elimlis.php?idlist=<?php echo $idlistapriv; ?>">Eliminar</a>
-                                    </div>
-                                </div>
-                            <?php
-                                }
-                            }
-                            ?>
-                            </div>
 
                                         <br>
                                 <h4><?php print("PRODUCTOS"); ?></h4>
@@ -232,9 +196,7 @@ foreach ($stmt3 as $row) {
                                             ?>
                                         </p>
                                         <div class="acciones">
-                                            <a class="btn-ver" href="Producto.php?idprod=<?php echo $idprod; ?> ">Ver</a>
-                                            <a class="btn-editar" href="EditProd.php?idprod=<?php echo $idprod; ?>">Editar</a>
-                                            <a class="btn-eliminar" href="../PHP/ElimProd.php?idprod=<?php echo $idprod; ?>">Eliminar</a>
+                                            <a class="btn-ver" href="Producto.php?idprod=<?php echo $idprod; ?> ">Ver Producto</a>                 
                                         </div>
                                     </div>
                                 <?php } ?>
@@ -249,15 +211,6 @@ foreach ($stmt3 as $row) {
     </div>
     </div> 
       
-    <div class="botones">
-        <div class="area2">
-            <a href="EditUsu.php"><button type="submit" class="botModUsu">Editar Usuario</button></a>
-        </div>
-        <div class="area3">
-            <!--<a href="../PHP/ElimUsu.php"><button type="submit" class="botElimUsu">Eliminar cuenta</button></a>-->
-            <a href="../PHP/ElimUsu.php"><button type="submit" class="botElimUsu">Eliminar cuenta</button></a>
-        </div>
-    </div>
 
 </main>
 <footer>

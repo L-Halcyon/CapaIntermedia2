@@ -58,12 +58,9 @@ $stmt11->execute();
             <h1>F-Store</h1>
         </a>
         <nav class="Opciones">
-            <a href="../HTML/PubProd.php" class="Opc_1">Publicar producto</a>
-            <a href="../HTML/Categorias.php" class="Opc_2">Categorias</a>
             <a href="../HTML/Listas.php" class="Opc_3">Crear Lista</a>
             <a href="../HTML/Contactos.php" class="Opc_4">Contactos y cotizaciones</a>
             
-            <a href="../HTML/Ventas.php" class="Opc_5">Mis ventas</a>
             <a href="../HTML/Pedidos.php" class="Opc_1">Pedidos realizados</a>
         </nav>
         <hr>
@@ -188,61 +185,14 @@ foreach ($stmt3 as $row) {
                             </div>
 
                                         <br>
-                                <h4><?php print("PRODUCTOS"); ?></h4>
-                                <div class="productos-container">
-                                <?php
-                                $q6 = "SELECT * FROM Producto WHERE Usu_ID = '$id' AND Eliminado = 0 AND Validado = 1";
-                                $stmt6 = $miConexion->prepare($q6);
-                                $stmt6->execute();
 
-                                foreach($stmt6 as $row6) {
-                                    $idprod = $row6['Producto_ID'];
-                                    $nombre = $row6['Nombre'];
-                                    $precio = $row6['Precio'];
-                                    $tipooferta = $row6['Tipo_Oferta'];
-                                    $imagenHTML = "";
-
-                                    $q7 = "SELECT MIN(Imagen_ID) FROM Imagen_Prod WHERE Prod_ID = '$idprod'";
-                                    $stmt7 = $miConexion->prepare($q7);
-                                    $stmt7->execute();
-
-                                    foreach($stmt7 as $row7) {
-                                        $idfoto = $row7['MIN(Imagen_ID)'];
-                                        $q8 = "SELECT * FROM Imagen_Prod WHERE Imagen_ID = '$idfoto'";
-                                        $stmt8 = $miConexion->prepare($q8);
-                                        $stmt8->execute();
-
-                                        foreach($stmt8 as $row8) {
-                                            $tipofoto = $row8['tipo'];
-                                            $imagfoto = $row8['imagen'];
-                                            $imagenHTML = '<img src="data:' . $tipofoto . ';base64,' . base64_encode($imagfoto) . '" alt="Imagen producto">';
-                                        }
-                                    }
-                                ?>
-                                    <div class="card-producto">
-                                        <?php echo $imagenHTML; ?>
-                                        <h3><?php echo $nombre; ?></h3>
-                                        <p><strong>Precio:</strong> 
-                                            <?php
-                                                if($tipooferta == 0) {
-                                                    echo "$".$precio;
-                                                } else {
-                                                    echo "Cotizado";
-                                                }
-                                            ?>
-                                        </p>
-                                        <div class="acciones">
-                                            <a class="btn-ver" href="Producto.php?idprod=<?php echo $idprod; ?> ">Ver</a>
-                                            <a class="btn-editar" href="EditProd.php?idprod=<?php echo $idprod; ?>">Editar</a>
-                                            <a class="btn-eliminar" href="../PHP/ElimProd.php?idprod=<?php echo $idprod; ?>">Eliminar</a>
-                                        </div>
-                                    </div>
+                                    
                                 <?php } ?>
                                 </div>
-
+                                            
                     <?php
                         }
-                }
+                
                     ?>
  
                                

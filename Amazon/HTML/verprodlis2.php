@@ -148,7 +148,6 @@ $stmt4->execute();
                                 </p>
                                 <div class="acciones">
                                     <a class="btn-ver" href="Producto.php?idprod=<?php echo $idproductoselec; ?> ">Ver producto</a>
-                                    <?php echo "<a class='btn-eliminar' href='../PHP/elimProdlis.php?idprod=".$idproducto."&idlist=".$idlista."'>Quitar</a>"; ?>
                                 </div>
                             </div>
                     <?php
