@@ -51,11 +51,11 @@ $stmt4->execute();
                 if($priv === 0)
                 {
         ?>
-                    <nav class="Opciones">
+                    <!-- <nav class="Opciones">
                         <a href="../HTML/PubProd.php" class="Opc_1">Publicar producto</a>
                         <a href="../HTML/Categorias.php" class="Opc_2">Categorias</a>
                         <a href="../HTML/Listas.php" class="Opc_3">Crear Lista</a>
-                    </nav>
+                    </nav> -->
         <?php
                 }
             }
@@ -135,7 +135,7 @@ $stmt4->execute();
                                 <p><?php echo $descripcion; ?></p>
                                 <p><strong>Precio:</strong> 
                                     <?php
-                                        if($tipooferta == 1) {
+                                        if($tipooferta == 0) {
                                             echo "$".$precio;
                                         } else {
                                             echo "Cotizado";

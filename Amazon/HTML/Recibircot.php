@@ -40,7 +40,7 @@ $stmt4->execute();
     <header>
 
         <a href="PagIni.php" class="logo">
-            <i class="fa-solid fa-hashtag"></i>
+            <i class="fa-solid "></i>
             <h1>F-Store</h1>
         </a>
 
@@ -53,19 +53,19 @@ $stmt4->execute();
                 if($priv === 0)
                 {
         ?>
-                    <nav class="Opciones">
+                    <!-- <nav class="Opciones">
                         <a href="../HTML/PubProd.php" class="Opc_1">Publicar producto</a>
                         <a href="../HTML/Categorias.php" class="Opc_2">Categorias</a>
                         <a href="../HTML/Listas.php" class="Opc_3">Crear Lista</a>
                         <a href="../HTML/Contactos.php" class="Opc_4">Contactos</a>
-                    </nav>
+                    </nav> -->
         <?php
                 }
 
                 if($priv === 1)
                 {
         ?>
-                    <a href="../HTML/Contactos.php" class="Opc_1">Contactos</a>
+                    <!-- <a href="../HTML/Contactos.php" class="Opc_1">Contactos</a> -->
         <?php
                 }
             }

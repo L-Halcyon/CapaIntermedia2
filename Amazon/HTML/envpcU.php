@@ -41,19 +41,19 @@ $privacidad = $datosVendedor['Privacidad'];
 <body>
 <header>
     <a href="PagIni.php" class="logo">
-        <i class="fa-solid fa-hashtag"></i>
+        <i class="fa-solid "></i>
         <h1>F-Store</h1>
     </a>
 
     <?php if ($privacidad === 0): ?>
-        <nav class="Opciones">
+        <!-- <nav class="Opciones">
             <a href="../HTML/PubProd.php" class="Opc_1">Publicar producto</a>
             <a href="../HTML/Categorias.php" class="Opc_2">Categorías</a>
             <a href="../HTML/Listas.php" class="Opc_3">Crear Lista</a>
             <a href="../HTML/Contactos.php" class="Opc_4">Contactos</a>
-        </nav>
+        </nav> -->
     <?php else: ?>
-        <a href="../HTML/Contactos.php" class="Opc_1">Contactos</a>
+        <!-- <a href="../HTML/Contactos.php" class="Opc_1">Contactos</a> -->
     <?php endif; ?>
 
     <hr>
@@ -134,7 +134,7 @@ $privacidad = $datosVendedor['Privacidad'];
                             <th>Precio</th>
                             <th>Cantidad</th>
                             <th>Especificaciones</th>
-                            <th>Estatus</th>
+                            <!-- <th>Estatus</th> -->
                         </tr>
                         <?php foreach ($propuestas as $p): ?>
                             <tr>
@@ -152,7 +152,7 @@ $privacidad = $datosVendedor['Privacidad'];
                                 $stmtVerCarrito->bindParam(':prod', $idprod);
                                 $stmtVerCarrito->execute();
 
-                                if ($stmtVerCarrito->rowCount() > 0) {
+                                /*if ($stmtVerCarrito->rowCount() > 0) {
                                     echo "<td>Este producto ya se agregó al carrito</td>";
                                 } else {
                                     if ($estatus == 1) {
@@ -162,7 +162,7 @@ $privacidad = $datosVendedor['Privacidad'];
                                     } else {
                                         echo "<td>Rechazado</td>";
                                     }
-                                }
+                                }*/
                                 ?>
                             </tr>
                         <?php endforeach; ?>
@@ -181,7 +181,9 @@ $privacidad = $datosVendedor['Privacidad'];
         <div class="footer_box">
             <div class="logo"><h1>F-Store</h1></div>
             <div class="terminos">
-                <p>Texto de ejemplo legal o términos de uso del sitio.</p>
+                <p>La Empresa En Sí Es Una Empresa Muy Exitosa. ¿A Él El Placer De Las Penas, La Culpa De Los
+                        Placeres Fáciles, Resultarán De La Ganancia, Ni Le Explicaré Las Veces Que Quiere Del Odio, O Es
+                        Menor En Otras Ocasiones? Ciertamente Así Es.</p>
             </div>
         </div>
         <div class="footer_box">
